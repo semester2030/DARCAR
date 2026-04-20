@@ -1,0 +1,23 @@
+{
+  "name": "dar-car",
+  "private": true,
+  "packageManager": "npm@10.9.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,api -c blue,magenta \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "npm run dev --workspace=@dar-car/web",
+    "dev:web:clean": "npm run clean:web && npm run dev:web",
+    "dev:api": "npm run dev --workspace=@dar-car/api",
+    "build": "npm run build --workspace=@dar-car/api && npm run build --workspace=@dar-car/web",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean:web": "rm -rf apps/web/.next"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

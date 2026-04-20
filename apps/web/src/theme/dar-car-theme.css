@@ -1,0 +1,150 @@
+/**
+ * Dar Car — unified theme (site-only).
+ * تعديل الألوان/الظلال/الحركة هنا ينعكس على كل الصفحات عبر متغيرات CSS و Tailwind @theme.
+ */
+@import "tailwindcss";
+
+:root {
+  /* Core palette (aligned with Flutter AppColors) */
+  --dc-primary: #7c3aed;
+  --dc-primary-dark: #5b21b6;
+  --dc-primary-light: #ede9fe;
+  --dc-primary-light-lighter: #f3eaff;
+  --dc-text-primary: #3f0071;
+  --dc-text-secondary: #6b21a8;
+  --dc-bg: #f9f6ff;
+  --dc-surface: #ffffff;
+  --dc-surface-elevated: #ffffff;
+  --dc-success: #10b981;
+  --dc-error: #ef4444;
+  --dc-gold: #c9a227;
+  --dc-emerald: #059669;
+
+  /* Layout & chrome */
+  --dc-radius-sm: 0.5rem;
+  --dc-radius-md: 0.75rem;
+  --dc-radius-lg: 1rem;
+  --dc-radius-xl: 1.5rem;
+  --dc-shadow-sm: 0 1px 2px rgb(63 0 113 / 0.06);
+  --dc-shadow-md: 0 12px 40px -12px rgb(91 33 182 / 0.25);
+  --dc-shadow-glow: 0 0 0 1px rgb(124 58 237 / 0.12), 0 20px 50px -20px rgb(124 58 237 / 0.35);
+
+  /* Motion */
+  --dc-duration-fast: 180ms;
+  --dc-duration-base: 280ms;
+  --dc-duration-slow: 480ms;
+  --dc-stagger-step: 70ms;
+
+  --dc-font-display: var(--font-display), system-ui, sans-serif;
+  --dc-font-body: var(--font-body), system-ui, sans-serif;
+
+  /* Hero mesh */
+  --dc-mesh-a: rgb(124 58 237 / 0.12);
+  --dc-mesh-b: rgb(91 33 182 / 0.08);
+  --dc-mesh-c: rgb(243 234 255 / 0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dc-duration-fast: 0.01ms;
+    --dc-duration-base: 0.01ms;
+    --dc-duration-slow: 0.01ms;
+    --dc-stagger-step: 0.01ms;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--dc-bg);
+  color: var(--dc-text-primary);
+  font-family: var(--dc-font-body);
+}
+
+/* Page backdrop noise + soft gradient (site-only polish) */
+.dc-page-bg {
+  position: relative;
+  isolation: isolate;
+}
+.dc-page-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(1200px 600px at 100% -10%, var(--dc-mesh-a), transparent 55%),
+    radial-gradient(900px 500px at -5% 30%, var(--dc-mesh-b), transparent 50%),
+    linear-gradient(180deg, var(--dc-mesh-c), var(--dc-bg));
+  pointer-events: none;
+}
+.dc-page-bg::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Keyframes — consumed by Framer / CSS modules */
+@keyframes dc-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes dc-shimmer-line {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes dc-pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgb(124 58 237 / 0.35);
+  }
+  70% {
+    box-shadow: 0 0 0 14px rgb(124 58 237 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(124 58 237 / 0);
+  }
+}
+
+.dc-icon-ring {
+  animation: dc-pulse-ring 2.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-icon-ring {
+    animation: none;
+  }
+}
+
+/* Focus visible — unified accessibility */
+:focus-visible {
+  outline: 2px solid var(--dc-primary);
+  outline-offset: 3px;
+}
+
+/* Interactive card lift — use with group */
+.dc-card-interactive {
+  transition:
+    transform var(--dc-duration-base) var(--ease-dc-out, ease),
+    box-shadow var(--dc-duration-base) var(--ease-dc-out, ease),
+    border-color var(--dc-duration-fast) ease;
+}
+.dc-card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--dc-shadow-md);
+}

@@ -1,0 +1,64 @@
+# Dar Car — Render Blueprint (هذا المستودع = جذر المشروع؛ لا Root Directory فرعي)
+# بعد الربط: راجع الروابط إذا غيّرت أسماء الخدمات عن dar-car-api / dar-car-web
+# https://render.com/docs/blueprint-spec
+
+envVarGroups:
+  - name: dar-car-shared
+    envVars:
+      - key: ADMIN_API_KEY
+        generateValue: true
+
+services:
+  - type: web
+    name: dar-car-api
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: npm ci && npm run build --workspace=@dar-car/api
+    startCommand: npm run start --workspace=@dar-car/api
+    healthCheckPath: /v1/health
+    disk:
+      name: dar-car-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - fromGroup: dar-car-shared
+      - key: CORS_ORIGIN
+        value: https://dar-car-web.onrender.com
+      - key: HOME_PAGE_JSON_PATH
+        value: /data/home.v1.json
+      - key: CONTACT_INBOX_PATH
+        value: /data/contact-inbox.jsonl
+      - key: RESEND_API_KEY
+        sync: false
+      - key: RESEND_FROM
+        sync: false
+      - key: CONTACT_NOTIFY_TO
+        sync: false
+
+  - type: web
+    name: dar-car-web
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: npm ci && npm run build --workspace=@dar-car/web
+    startCommand: npm run start --workspace=@dar-car/web
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - fromGroup: dar-car-shared
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://dar-car-web.onrender.com
+      - key: NEXT_PUBLIC_API_URL
+        value: https://dar-car-api.onrender.com
+      - key: API_INTERNAL_URL
+        value: https://dar-car-api.onrender.com
+      - key: NEXT_PUBLIC_USE_HOME_API
+        value: "true"
+      - key: ADMIN_SESSION_SECRET
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false
