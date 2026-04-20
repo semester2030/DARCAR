@@ -119,6 +119,7 @@ npm run dev:web
 | `HOME_PAGE_JSON_PATH` | **إن فعّلت قرصاً دائماً** (انظر 6.4)، مثلاً `/data/home.v1.json`. |
 | `CONTACT_INBOX_PATH` | مع القرص الدائم، مثلاً `/data/contact-inbox.jsonl`. |
 | `RESEND_API_KEY` / `RESEND_FROM` / `CONTACT_NOTIFY_TO` | اختياري — إشعار بريد عبر Resend (انظر القسم 5). |
+| `MEDIA_UPLOAD_DIR` | مع قرص دائم مثل `/data/uploads` — تخزين صور/فيديوهات الرفع من لوحة الإدارة. |
 
 ### 6.3) خدمة الويب (`apps/web`)
 
@@ -152,7 +153,7 @@ npm run dev:web
 3. **مرة واحدة** بعد أول نشر ناجح، انسخ الملف الافتراضي للقرص (عبر **Shell** في Render أو نشر مؤقت بأمر):
 
    ```bash
-   mkdir -p /data && test -f /data/home.v1.json || cp data/home.v1.json /data/home.v1.json
+   mkdir -p /data/uploads && mkdir -p /data && test -f /data/home.v1.json || cp data/home.v1.json /data/home.v1.json
    ```
 
    (ينفَّذ من جذر المشروع داخل الحاوية حيث يوجد مجلد `data/` القادم من البناء.)
@@ -198,7 +199,7 @@ git push -u origin main
 6. بعد أول نشر للـ API، من **Shell** على خدمة الـ API:
 
 ```bash
-mkdir -p /data && test -f /data/home.v1.json || cp data/home.v1.json /data/home.v1.json
+mkdir -p /data/uploads && mkdir -p /data && test -f /data/home.v1.json || cp data/home.v1.json /data/home.v1.json
 ```
 
 7. إذا غيّرت **أسماء الخدمات** على Render، فستتغير روابط `*.onrender.com` — حدّث يدوياً في لوحة الخدمات: `CORS_ORIGIN`، `NEXT_PUBLIC_SITE_URL`، `NEXT_PUBLIC_API_URL`، `API_INTERNAL_URL` لتطابق الروابط الفعلية (أو عدّل `render.yaml` وأعد المزامنة).

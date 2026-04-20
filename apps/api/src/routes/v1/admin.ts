@@ -3,6 +3,8 @@ import type { Env } from "../../config/env.js";
 import type { AppVariables } from "../../types/context.js";
 import { loadHomePageJson } from "../../content/load-home-page.js";
 import { saveHomePageJson } from "../../content/save-home-page.js";
+import { ensureMediaUploadDir, resolveMediaUploadDir } from "../../lib/upload-dir.js";
+import { saveUploadedMedia } from "../../lib/save-uploaded-media.js";
 
 function bearerKey(c: { req: { header: (n: string) => string | undefined } }): string {
   const h = c.req.header("authorization") ?? "";
@@ -47,6 +49,39 @@ export function createAdminRouter(env: Env) {
       const message = e instanceof Error ? e.message : "SAVE_FAILED";
       return c.json({ error: message }, 400);
     }
+  });
+
+  admin.post("/media", async (c) => {
+    let body: Record<string, unknown>;
+    try {
+      body = (await c.req.parseBody({ all: true })) as Record<string, unknown>;
+    } catch {
+      return c.json({ error: "INVALID_MULTIPART" }, 400);
+    }
+    const file = body.file;
+    if (!(file instanceof File)) {
+      return c.json({ error: "MISSING_FILE", hint: "use form field name `file`" }, 400);
+    }
+    const dir = resolveMediaUploadDir(env.MEDIA_UPLOAD_DIR);
+    try {
+      await ensureMediaUploadDir(dir);
+    } catch (e) {
+      console.error("upload mkdir failed", e);
+      return c.json({ error: "UPLOAD_DIR_UNAVAILABLE" }, 503);
+    }
+    const saved = await saveUploadedMedia(dir, file);
+    if (!saved.ok) {
+      const status = saved.error === "FILE_TOO_LARGE" ? 413 : 415;
+      return c.json({ error: saved.error }, status);
+    }
+    const path = `/v1/media/files/${saved.filename}`;
+    return c.json({
+      ok: true,
+      filename: saved.filename,
+      path,
+      mime: saved.mime,
+      size: saved.size,
+    });
   });
 
   return admin;

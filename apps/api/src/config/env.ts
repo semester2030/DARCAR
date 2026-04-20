@@ -20,6 +20,8 @@ const schema = z.object({
   RESEND_FROM: z.string().min(3).optional(),
   /** مستلمون (بريد الفريق)، مفصولون بفاصلة */
   CONTACT_NOTIFY_TO: z.string().optional(),
+  /** مجلد رفع الوسائط (صور/فيديو) — على Render مع قرص استخدم مثل `/data/uploads` */
+  MEDIA_UPLOAD_DIR: z.string().optional(),
 });
 
 export type Env = z.infer<typeof schema>;

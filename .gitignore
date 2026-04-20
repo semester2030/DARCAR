@@ -12,4 +12,6 @@ apps/api/dist
 coverage
 uploads
 data/contact-inbox.jsonl
+data/uploads/*
+!data/uploads/.gitkeep
 **/.eslintcache
