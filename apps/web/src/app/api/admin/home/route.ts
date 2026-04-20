@@ -17,7 +17,11 @@ export async function GET() {
   });
   const text = await res.text();
   if (!res.ok) {
-    return NextResponse.json({ error: text || res.statusText }, { status: res.status });
+    try {
+      return NextResponse.json(JSON.parse(text) as object, { status: res.status });
+    } catch {
+      return NextResponse.json({ error: text || res.statusText }, { status: res.status });
+    }
   }
   try {
     return NextResponse.json(JSON.parse(text) as unknown);
