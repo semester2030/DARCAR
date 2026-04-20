@@ -3,19 +3,9 @@ import { stat } from "node:fs/promises";
 import { join } from "node:path";
 import { Hono } from "hono";
 import type { Env } from "../../config/env.js";
+import { contentTypeForMediaFilename, isSafeMediaFilename } from "../../lib/media-file.js";
 import type { AppVariables } from "../../types/context.js";
 import { resolveMediaUploadDir } from "../../lib/upload-dir.js";
-
-const SAFE_FILE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\.(jpe?g|png|webp|mp4|webm)$/i;
-
-const EXT_MIME: Record<string, string> = {
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".png": "image/png",
-  ".webp": "image/webp",
-  ".mp4": "video/mp4",
-  ".webm": "video/webm",
-};
 
 export function createMediaRouter(env: Env) {
   const mediaRouter = new Hono<{ Variables: AppVariables }>();
@@ -32,7 +22,7 @@ export function createMediaRouter(env: Env) {
   /** قراءة عامة للملفات المرفوعة (روابط تُضمّن في الصفحة الرئيسية) */
   mediaRouter.get("/files/:name", async (c) => {
     const name = c.req.param("name");
-    if (!SAFE_FILE.test(name)) {
+    if (!isSafeMediaFilename(name)) {
       return c.body(null, 404);
     }
     const dir = resolveMediaUploadDir(env.MEDIA_UPLOAD_DIR);
@@ -45,9 +35,7 @@ export function createMediaRouter(env: Env) {
     } catch {
       return c.body(null, 404);
     }
-    const dot = name.lastIndexOf(".");
-    const ext = name.slice(dot).toLowerCase();
-    const type = EXT_MIME[ext] ?? "application/octet-stream";
+    const type = contentTypeForMediaFilename(name);
     return new Response(createReadStream(full), {
       headers: {
         "Content-Type": type,

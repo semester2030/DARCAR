@@ -2,19 +2,72 @@ import { NextResponse } from "next/server";
 import { getInternalApiBase } from "@/lib/api-internal";
 import { isAdminAuthenticated } from "@/lib/require-admin";
 
+function adminHeaders(): HeadersInit | null {
+  const key = process.env.ADMIN_API_KEY;
+  if (!key) return null;
+  return { Authorization: `Bearer ${key}` };
+}
+
+export async function GET() {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const headers = adminHeaders();
+  if (!headers) {
+    return NextResponse.json({ error: "ADMIN_API_KEY_NOT_SET_ON_WEB" }, { status: 503 });
+  }
+  const base = getInternalApiBase();
+  const res = await fetch(`${base}/v1/admin/media`, { method: "GET", headers, cache: "no-store" });
+  const text = await res.text();
+  if (!res.ok) {
+    return new NextResponse(text, {
+      status: res.status,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  return new NextResponse(text, {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+export async function DELETE(request: Request) {
+  if (!(await isAdminAuthenticated())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const headers = adminHeaders();
+  if (!headers) {
+    return NextResponse.json({ error: "ADMIN_API_KEY_NOT_SET_ON_WEB" }, { status: 503 });
+  }
+  const name = new URL(request.url).searchParams.get("name")?.trim() ?? "";
+  if (!name) {
+    return NextResponse.json({ error: "MISSING_NAME" }, { status: 400 });
+  }
+  const base = getInternalApiBase();
+  const res = await fetch(`${base}/v1/admin/media/${encodeURIComponent(name)}`, {
+    method: "DELETE",
+    headers,
+  });
+  const text = await res.text();
+  return new NextResponse(text, {
+    status: res.status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
 export async function POST(request: Request) {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const key = process.env.ADMIN_API_KEY;
-  if (!key) {
+  const headers = adminHeaders();
+  if (!headers) {
     return NextResponse.json({ error: "ADMIN_API_KEY_NOT_SET_ON_WEB" }, { status: 503 });
   }
   const formData = await request.formData();
   const base = getInternalApiBase();
   const res = await fetch(`${base}/v1/admin/media`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${key}` },
+    headers,
     body: formData,
   });
   const text = await res.text();

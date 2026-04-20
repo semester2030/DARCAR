@@ -54,7 +54,7 @@ export function AdminHomeEditor() {
     void load();
   }, [load]);
 
-  async function persistDocument(body: unknown) {
+  const persistDocument = useCallback(async (body: unknown) => {
     const res = await fetch("/api/admin/home", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -69,9 +69,9 @@ export function AdminHomeEditor() {
       throw new Error(await again.text());
     }
     applyPayload(await again.json());
-  }
+  }, [applyPayload]);
 
-  async function saveJson() {
+  const saveJson = useCallback(async () => {
     setSaving(true);
     setMessage(null);
     setError(null);
@@ -92,9 +92,9 @@ export function AdminHomeEditor() {
     } finally {
       setSaving(false);
     }
-  }
+  }, [raw, persistDocument, router]);
 
-  async function saveVisual() {
+  const saveVisual = useCallback(async () => {
     if (!doc) {
       setError("لا يوجد محتوى بصري — تحقق من JSON أو أعد التحميل.");
       return;
@@ -111,7 +111,18 @@ export function AdminHomeEditor() {
     } finally {
       setSaving(false);
     }
-  }
+  }, [doc, persistDocument, router]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.metaKey || e.ctrlKey) || e.key.toLowerCase() !== "s") return;
+      e.preventDefault();
+      if (saving || loading) return;
+      void (tab === "visual" ? saveVisual() : saveJson());
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [tab, saving, loading, saveJson, saveVisual]);
 
   function switchTab(next: Tab) {
     if (next === "json" && doc) {
@@ -137,7 +148,7 @@ export function AdminHomeEditor() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+    <div className="mx-auto max-w-5xl px-4 py-10 pb-32 sm:px-6">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1
@@ -147,7 +158,7 @@ export function AdminHomeEditor() {
             تحرير الصفحة الرئيسية
           </h1>
           <p className="mt-1 text-sm text-[var(--dc-text-secondary)]">
-            الوضع البصري: نصوص + رفع صور/فيديو. يُحفظ كل شيء في{" "}
+            الوضع البصري: نصوص + رفع صور/فيديو ومعرض وسائط. يُحفظ كل شيء في{" "}
             <code className="rounded bg-[var(--dc-primary-light-lighter)] px-1">data/home.v1.json</code> عبر الـ API؛
             الملفات تُخزَّن تحت <code className="rounded bg-[var(--dc-primary-light-lighter)] px-1">data/uploads</code>{" "}
             (أو <code className="rounded px-1">MEDIA_UPLOAD_DIR</code> على السيرفر).
@@ -218,32 +229,49 @@ export function AdminHomeEditor() {
             />
           )}
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              disabled={saving}
-              onClick={() => void (tab === "visual" ? saveVisual() : saveJson())}
-              className="rounded-[var(--dc-radius-lg)] bg-[var(--dc-primary)] px-6 py-2.5 text-sm font-bold text-[var(--dc-surface)] shadow-md transition-opacity disabled:opacity-50"
-            >
-              {saving ? "جاري الحفظ…" : "حفظ"}
-            </button>
-            <button
-              type="button"
-              disabled={saving}
-              onClick={() => void load()}
-              className="rounded-[var(--dc-radius-lg)] border border-[var(--dc-primary-light)] px-4 py-2 text-sm font-semibold text-[var(--dc-primary-dark)]"
-            >
-              إعادة التحميل من الخادم
-            </button>
-          </div>
-          {message ? <p className="mt-3 text-sm text-emerald-700 dark:text-emerald-400">{message}</p> : null}
+          {message ? <p className="mt-4 text-sm text-emerald-700 dark:text-emerald-400">{message}</p> : null}
           {error ? (
-            <p className="mt-3 whitespace-pre-wrap text-sm text-red-700 dark:text-red-400" dir="ltr">
+            <p className="mt-4 whitespace-pre-wrap text-sm text-red-700 dark:text-red-400" dir="ltr">
               {error}
             </p>
           ) : null}
         </>
       )}
+
+      {!loading ? (
+        <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-[var(--dc-primary-light)] bg-[var(--dc-bg)]/95 backdrop-blur-md shadow-[0_-6px_24px_rgba(0,0,0,0.06)] dark:shadow-[0_-6px_24px_rgba(0,0,0,0.35)]">
+          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                disabled={saving}
+                onClick={() => void (tab === "visual" ? saveVisual() : saveJson())}
+                className="rounded-[var(--dc-radius-lg)] bg-[var(--dc-primary)] px-6 py-2.5 text-sm font-bold text-[var(--dc-surface)] shadow-md transition-opacity disabled:opacity-50"
+              >
+                {saving ? "جاري الحفظ…" : "حفظ"}
+              </button>
+              <button
+                type="button"
+                disabled={saving}
+                onClick={() => void load()}
+                className="rounded-[var(--dc-radius-lg)] border border-[var(--dc-primary-light)] px-4 py-2 text-sm font-semibold text-[var(--dc-primary-dark)]"
+              >
+                إعادة التحميل من الخادم
+              </button>
+            </div>
+            <p className="text-xs text-[var(--dc-text-secondary)]" dir="rtl">
+              اختصار: <kbd className="rounded border border-[var(--dc-primary-light)] bg-[var(--dc-surface)] px-1.5 py-0.5 font-mono">⌘</kbd>
+              {" + "}
+              <kbd className="rounded border border-[var(--dc-primary-light)] bg-[var(--dc-surface)] px-1.5 py-0.5 font-mono">S</kbd>
+              {" أو "}
+              <kbd className="rounded border border-[var(--dc-primary-light)] bg-[var(--dc-surface)] px-1.5 py-0.5 font-mono">Ctrl</kbd>
+              {" + "}
+              <kbd className="rounded border border-[var(--dc-primary-light)] bg-[var(--dc-surface)] px-1.5 py-0.5 font-mono">S</kbd>
+              {" للحفظ"}
+            </p>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
