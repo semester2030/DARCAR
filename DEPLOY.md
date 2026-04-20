@@ -175,13 +175,15 @@ npm run dev:web
 ## 7) ريبو معزول على GitHub + Render (Blueprint)
 
 1. أنشئ ريبو جديداً على GitHub (مثلاً `dar-car`) **فارغاً** بدون README إن رغبت.
-2. من جهازك داخل **جذر هذا المشروع** (المجلد الذي فيه `package.json` و`render.yaml`). إن لم يكن `git init` قد نُفّذ من قبل:
+2. من جهازك داخل **جذر هذا المشروع** (المجلد الذي فيه `package.json` و`render.yaml`). إن لم يكن هناك مستودع Git بعد، نفّذ:
 
 ```bash
 git init
 git add -A
 git commit -m "Dar Car: isolated repository"
 ```
+
+(إن كان `.git` موجوداً ومُعدّاً مسبقاً، تخطَّ `git init` واكتفِ بـ `git add` / `git commit` للتغييرات الجديدة.)
 
 3. اربط الأصل وادفع:
 
