@@ -25,6 +25,8 @@ function renderBlock(block: HomeBlock) {
       return <TechShowcaseSection key={block.id} block={block} />;
     case "cta_band":
       return <CtaBandSection key={block.id} block={block} />;
+    default:
+      return null;
   }
 }
 
