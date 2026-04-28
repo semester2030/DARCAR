@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { DarCarLogo } from "@/components/brand/dar-car-logo";
 import type { HeroBlock } from "@/lib/home-content";
 import { siteConfig } from "@/lib/site-config";
 import { dcMotion } from "@/theme";
@@ -79,12 +80,9 @@ export function HeroSection({ block }: { block: HeroBlock }) {
             {block.eyebrowAr}
           </motion.p>
 
-          <motion.div custom={2} initial="hidden" animate="show" variants={item} className="mb-2 flex justify-center">
-            <span
-              className="dc-logo-shine relative inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--dc-primary-bright)] via-[var(--dc-primary)] to-[var(--dc-primary-dark)] text-xl font-black text-white shadow-lg ring-1 ring-white/30"
-              aria-hidden
-            >
-              د
+          <motion.div custom={2} initial="hidden" animate="show" variants={item} className="mb-3 flex justify-center">
+            <span className="inline-block overflow-hidden rounded-2xl shadow-lg ring-1 ring-slate-200/70">
+              <DarCarLogo variant="hero" priority />
             </span>
           </motion.div>
 

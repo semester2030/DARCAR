@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DarCarLogo } from "@/components/brand/dar-car-logo";
 import { siteConfig } from "@/lib/site-config";
 
 export function SiteFooter() {
@@ -8,8 +9,11 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="grid gap-10 text-sm sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div>
+            <div className="mb-4 inline-block overflow-hidden rounded-xl ring-1 ring-slate-200/80">
+              <DarCarLogo variant="footer" />
+            </div>
             <p
-              className="mb-3 text-lg font-extrabold text-[var(--dc-text-primary)]"
+              className="mb-2 text-lg font-extrabold text-[var(--dc-text-primary)]"
               style={{ fontFamily: "var(--dc-font-display)" }}
             >
               {siteConfig.nameAr}

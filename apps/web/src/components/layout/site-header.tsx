@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { DarCarLogo } from "@/components/brand/dar-car-logo";
 import { siteConfig } from "@/lib/site-config";
 import { dcMotion } from "@/theme";
 
@@ -42,12 +43,14 @@ export function SiteHeader() {
             className="group flex min-w-0 flex-1 items-center gap-3 rounded-2xl py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dc-primary)]"
             onClick={() => setMenuOpen(false)}
           >
-            <span
-              className="dc-logo-shine relative flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--dc-primary-bright)] via-[var(--dc-primary)] to-[var(--dc-primary-dark)] text-base font-black text-white shadow-md ring-1 ring-white/25 transition-transform duration-[var(--dc-duration-fast)] group-hover:scale-[1.04]"
+            <motion.span
+              className="relative shrink-0 overflow-hidden rounded-xl ring-1 ring-slate-200/80 transition-shadow duration-[var(--dc-duration-fast)] group-hover:shadow-md group-hover:ring-sky-200/60"
+              whileHover={reduce ? undefined : { scale: 1.04 }}
+              transition={{ type: "spring", stiffness: 420, damping: 22 }}
               aria-hidden
             >
-              د
-            </span>
+              <DarCarLogo variant="header" priority />
+            </motion.span>
             <span className="min-w-0 text-start">
               <span
                 className="block truncate text-lg font-extrabold text-[var(--dc-text-primary)] transition-colors group-hover:text-[var(--dc-primary)]"
@@ -126,8 +129,13 @@ export function SiteHeader() {
               transition={{ type: "spring", damping: 28, stiffness: 320 }}
               className="fixed inset-y-0 right-0 z-50 flex w-[min(100%,22rem)] flex-col border-l border-slate-100 bg-white shadow-2xl lg:hidden"
             >
-              <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-l from-white to-sky-50/50 px-4 py-4">
-                <span className="font-extrabold text-[var(--dc-text-primary)]">القائمة</span>
+              <div className="flex items-center justify-between gap-3 border-b border-slate-100 bg-gradient-to-l from-white to-sky-50/50 px-4 py-3">
+                <div className="flex min-w-0 flex-1 items-center gap-3">
+                  <span className="shrink-0 overflow-hidden rounded-lg ring-1 ring-slate-200/70">
+                    <DarCarLogo variant="compact" />
+                  </span>
+                  <span className="truncate font-extrabold text-[var(--dc-text-primary)]">القائمة</span>
+                </div>
                 <button
                   type="button"
                   className="rounded-xl p-2 text-slate-600 transition-colors hover:bg-sky-100/80 hover:text-[var(--dc-primary)]"
