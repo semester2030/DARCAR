@@ -35,14 +35,14 @@ export function FeatureGridSection({ block }: { block: FeatureGridBlock }) {
   const reduce = useReducedMotion();
 
   return (
-    <section id="features" className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-24">
+    <section id="features" className="scroll-mt-24 px-4 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 20, filter: reduce ? "none" : "blur(6px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: dcMotion.slow, ease: dcMotion.easeOut }}
-          className="mb-14 text-center"
+          className="mb-10 text-center"
         >
           <h2
             className="mb-3 text-3xl font-bold text-[var(--dc-text-primary)] sm:text-4xl"

@@ -8,15 +8,15 @@ export function CtaBandSection({ block }: { block: CtaBandBlock }) {
   const reduce = useReducedMotion();
 
   return (
-    <section id="download" className="scroll-mt-24 px-4 pb-20 pt-6 sm:px-6 sm:pb-24 sm:pt-8">
+    <section id="download" className="scroll-mt-24 px-4 pb-14 pt-5 sm:px-6 sm:pb-16 sm:pt-6">
       <motion.div
         initial={{ opacity: 0, y: reduce ? 0 : 28, scale: reduce ? 1 : 0.98 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: dcMotion.slow, ease: dcMotion.easeSpring }}
-        className="dc-gradient-ring relative mx-auto max-w-3xl rounded-[var(--dc-radius-2xl)] p-[2px] shadow-[var(--dc-shadow-card)]"
+        className="dc-gradient-ring relative mx-auto w-full max-w-5xl rounded-[var(--dc-radius-2xl)] p-[2px] shadow-[var(--dc-shadow-card)]"
       >
-        <div className="rounded-[calc(var(--dc-radius-2xl)-2px)] bg-white px-6 py-12 text-center sm:px-10 sm:py-14">
+        <div className="rounded-[calc(var(--dc-radius-2xl)-2px)] bg-white px-5 py-9 text-center sm:px-10 sm:py-11">
           <motion.div
             initial={{ opacity: 0, y: reduce ? 0 : 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ export function CtaBandSection({ block }: { block: CtaBandBlock }) {
             >
               {block.titleAr}
             </h2>
-            <p className="mx-auto mb-9 max-w-lg text-sm leading-relaxed text-[var(--dc-text-secondary)] sm:text-base">
+            <p className="mx-auto mb-7 max-w-2xl text-sm leading-relaxed text-[var(--dc-text-secondary)] sm:text-base">
               {block.bodyAr}
             </p>
             <motion.a

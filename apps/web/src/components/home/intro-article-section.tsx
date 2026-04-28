@@ -8,28 +8,28 @@ export function IntroArticleSection({ block }: { block: IntroArticleBlock }) {
   const reduce = useReducedMotion();
 
   return (
-    <section id="about-dar-car" className="scroll-mt-24 px-4 py-14 sm:px-6 sm:py-16">
-      <div className="mx-auto max-w-3xl">
+    <section id="about-dar-car" className="scroll-mt-24 px-4 py-10 sm:px-6 sm:py-12">
+      <div className="mx-auto w-full max-w-5xl xl:max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 24, scale: reduce ? 1 : 0.98, filter: reduce ? "none" : "blur(6px)" }}
           whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: dcMotion.slow, ease: dcMotion.easeOut }}
-          whileHover={reduce ? undefined : { y: -3 }}
-          className="dc-app-card px-6 py-10 text-center sm:px-10 sm:py-12"
+          whileHover={reduce ? undefined : { y: -2 }}
+          className="dc-app-card px-5 py-8 text-center sm:px-8 sm:py-9 lg:px-10"
         >
           <h2
-            className="mb-4 text-2xl font-extrabold text-[var(--dc-text-primary)] sm:text-3xl md:text-4xl"
+            className="mb-3 text-2xl font-extrabold text-[var(--dc-text-primary)] sm:text-3xl md:text-4xl"
             style={{ fontFamily: "var(--dc-font-display)" }}
           >
             {block.titleAr}
           </h2>
           {block.leadAr ? (
-            <p className="mb-8 text-base font-semibold leading-relaxed text-[var(--dc-primary)] sm:text-lg">
+            <p className="mb-6 text-base font-semibold leading-relaxed text-[var(--dc-primary)] sm:text-lg">
               {block.leadAr}
             </p>
           ) : null}
-          <div className="space-y-5 text-start text-base leading-[1.85] text-[var(--dc-text-secondary)] sm:text-lg">
+          <div className="space-y-4 text-start text-base leading-[1.8] text-[var(--dc-text-secondary)] sm:text-lg">
             {block.paragraphsAr.map((p, i) => (
               <motion.p
                 key={i}

@@ -15,7 +15,7 @@ export function StatsStripSection({ block }: { block: StatsBlock }) {
   const reduce = useReducedMotion();
 
   return (
-    <section className="px-4 py-10 sm:px-6 sm:py-12">
+    <section className="px-4 py-7 sm:px-6 sm:py-9">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
         {block.items.map((s, i) => (
           <motion.div

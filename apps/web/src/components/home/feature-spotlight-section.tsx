@@ -103,27 +103,27 @@ export function FeatureSpotlightSection({ block }: { block: FeatureSpotlightBloc
   const reduce = useReducedMotion();
 
   return (
-    <section id="features" className="scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20">
+    <section id="features" className="scroll-mt-24 px-4 py-11 sm:px-6 sm:py-14">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 20, filter: reduce ? "none" : "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: dcMotion.slow, ease: dcMotion.easeOut }}
-          className="mb-12 text-center sm:mb-16"
+          className="mb-8 text-center sm:mb-10"
         >
           <h2
-            className="mb-4 text-2xl font-extrabold text-[var(--dc-text-primary)] sm:text-3xl md:text-4xl"
+            className="mb-3 text-2xl font-extrabold text-[var(--dc-text-primary)] sm:text-3xl md:text-4xl"
             style={{ fontFamily: "var(--dc-font-display)" }}
           >
             {block.sectionTitleAr}
           </h2>
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--dc-text-secondary)] sm:text-lg">
+          <p className="mx-auto max-w-3xl text-base leading-relaxed text-[var(--dc-text-secondary)] sm:text-lg">
             {block.sectionSubtitleAr}
           </p>
         </motion.div>
 
-        <ul className="flex list-none flex-col gap-16 sm:gap-20 lg:gap-24">
+        <ul className="flex list-none flex-col gap-11 sm:gap-14 lg:gap-16">
           {block.items.map((item, index) => (
             <SpotlightRow key={item.id} item={item} index={index} reduce={!!reduce} reverse={index % 2 === 1} />
           ))}
@@ -159,7 +159,7 @@ function SpotlightRow({
         ease: dcMotion.easeOut,
       }}
       whileHover={reduce ? undefined : { y: -6, transition: { type: "spring", stiffness: 380, damping: 22 } }}
-      className={`flex flex-col gap-8 rounded-[var(--dc-radius-2xl)] border border-slate-100 bg-white p-6 shadow-[var(--dc-shadow-sm)] transition-shadow duration-[var(--dc-duration-base)] hover:shadow-[var(--dc-shadow-card)] sm:p-8 lg:flex-row lg:items-stretch lg:gap-10 ${a.border} ${reverse ? "lg:flex-row-reverse" : ""}`}
+      className={`flex flex-col gap-6 rounded-[var(--dc-radius-2xl)] border border-slate-100 bg-white p-5 shadow-[var(--dc-shadow-sm)] transition-shadow duration-[var(--dc-duration-base)] hover:shadow-[var(--dc-shadow-card)] sm:p-7 lg:flex-row lg:items-stretch lg:gap-8 ${a.border} ${reverse ? "lg:flex-row-reverse" : ""}`}
     >
       <motion.div
         className="min-w-0 flex-1 lg:max-w-[52%]"
