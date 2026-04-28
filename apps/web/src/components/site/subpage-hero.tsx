@@ -14,24 +14,25 @@ export function SubpageHero({ title, subtitle, breadcrumb }: Props) {
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden border-b border-[var(--dc-primary-light)] bg-gradient-to-b from-[var(--dc-primary-light-lighter)]/80 to-transparent px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14">
+    <section className="relative overflow-hidden px-4 pb-12 pt-8 sm:px-6 sm:pb-16 sm:pt-10">
       <div
-        className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full opacity-40 blur-3xl"
-        style={{
-          background: "radial-gradient(circle, var(--dc-primary-light) 0%, transparent 70%)",
-        }}
+        className="absolute inset-0 -z-10 bg-gradient-to-bl from-[var(--dc-primary-bright)] via-[var(--dc-primary)] to-[var(--dc-primary-dark)]"
         aria-hidden
       />
-      <div className="relative mx-auto max-w-4xl">
+      <div
+        className="pointer-events-none absolute -left-20 top-0 h-64 w-64 rounded-full bg-white/10 blur-3xl"
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-4xl text-center text-white">
         {breadcrumb?.length ? (
-          <nav className="mb-6 text-sm text-[var(--dc-text-secondary)]" aria-label="مسار التنقل">
+          <nav className="mb-6 text-sm text-white/85" aria-label="مسار التنقل">
             {breadcrumb.map((b, i) => (
               <span key={b.href}>
-                {i > 0 ? <span className="mx-2 opacity-50">/</span> : null}
+                {i > 0 ? <span className="mx-2 opacity-60">/</span> : null}
                 {i === breadcrumb.length - 1 ? (
-                  <span className="font-medium text-[var(--dc-text-primary)]">{b.label}</span>
+                  <span className="font-bold text-white">{b.label}</span>
                 ) : (
-                  <Link href={b.href} className="transition-colors hover:text-[var(--dc-primary)]">
+                  <Link href={b.href} className="transition-colors hover:text-white hover:underline">
                     {b.label}
                   </Link>
                 )}
@@ -40,10 +41,10 @@ export function SubpageHero({ title, subtitle, breadcrumb }: Props) {
           </nav>
         ) : null}
         <motion.h1
-          initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+          initial={{ opacity: 0, y: reduce ? 0 : 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: dcMotion.base, ease: dcMotion.easeOut }}
-          className="text-3xl font-bold text-[var(--dc-text-primary)] sm:text-4xl md:text-5xl"
+          className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl"
           style={{ fontFamily: "var(--dc-font-display)" }}
         >
           {title}
@@ -52,8 +53,8 @@ export function SubpageHero({ title, subtitle, breadcrumb }: Props) {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.1, duration: dcMotion.base }}
-            className="mt-4 max-w-2xl text-lg leading-relaxed text-[var(--dc-text-secondary)]"
+            transition={{ delay: 0.08, duration: dcMotion.base }}
+            className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg"
           >
             {subtitle}
           </motion.p>

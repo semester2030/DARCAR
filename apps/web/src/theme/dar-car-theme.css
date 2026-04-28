@@ -1,47 +1,59 @@
 /**
- * Dar Car — unified theme (site-only).
- * تعديل الألوان/الظلال/الحركة هنا ينعكس على كل الصفحات عبر متغيرات CSS و Tailwind @theme.
+ * Dar Car — واجهة موازية لتطبيق الجوال: بنفسجي حيّ، أسطح بيضاء، بطاقات بزوايا عريضة وظلال ناعمة.
  */
 @import "tailwindcss";
 
 :root {
-  /* Core palette (aligned with Flutter AppColors) */
-  --dc-primary: #7c3aed;
-  --dc-primary-dark: #5b21b6;
-  --dc-primary-light: #ede9fe;
-  --dc-primary-light-lighter: #f3eaff;
-  --dc-text-primary: #3f0071;
-  --dc-text-secondary: #6b21a8;
-  --dc-bg: #f9f6ff;
+  /* بنفسجي التطبيق — أقرب لشاشات اختيار الحساب والقوائم */
+  --dc-primary: #6930d3;
+  --dc-primary-dark: #4a1d9e;
+  --dc-primary-bright: #7c4dff;
+  --dc-primary-light: #e8ddff;
+  --dc-primary-light-lighter: #f4efff;
+  --dc-header-tint: #f6f2ff;
+
+  --dc-text-primary: #2d0d5c;
+  --dc-text-secondary: #5b3d8a;
+  --dc-text-muted: #7c6b9e;
+
+  --dc-bg: #f3f0fa;
   --dc-surface: #ffffff;
   --dc-surface-elevated: #ffffff;
+
   --dc-success: #10b981;
   --dc-error: #ef4444;
-  --dc-gold: #c9a227;
+  --dc-gold: #d4a017;
   --dc-emerald: #059669;
 
-  /* Layout & chrome */
-  --dc-radius-sm: 0.5rem;
-  --dc-radius-md: 0.75rem;
-  --dc-radius-lg: 1rem;
-  --dc-radius-xl: 1.5rem;
-  --dc-shadow-sm: 0 1px 2px rgb(63 0 113 / 0.06);
-  --dc-shadow-md: 0 12px 40px -12px rgb(91 33 182 / 0.25);
-  --dc-shadow-glow: 0 0 0 1px rgb(124 58 237 / 0.12), 0 20px 50px -20px rgb(124 58 237 / 0.35);
+  /* بطاقات إحصائيات (مثل لوحات التطبيق) */
+  --dc-stat-violet: #ede9fe;
+  --dc-stat-mint: #d1fae5;
+  --dc-stat-sky: #e0f2fe;
+  --dc-stat-amber: #fef3c7;
 
-  /* Motion */
-  --dc-duration-fast: 180ms;
-  --dc-duration-base: 280ms;
-  --dc-duration-slow: 480ms;
-  --dc-stagger-step: 70ms;
+  --dc-radius-sm: 0.625rem;
+  --dc-radius-md: 1rem;
+  --dc-radius-lg: 1.25rem;
+  --dc-radius-xl: 1.75rem;
+  --dc-radius-2xl: 2rem;
+
+  --dc-shadow-sm: 0 2px 8px rgb(45 13 92 / 0.06);
+  --dc-shadow-md: 0 8px 32px -8px rgb(73 29 158 / 0.14);
+  --dc-shadow-card: 0 12px 40px -16px rgb(45 13 92 / 0.12);
+  --dc-shadow-glow: 0 0 0 1px rgb(105 48 211 / 0.12), 0 20px 50px -20px rgb(105 48 211 / 0.28);
+  --dc-header-shadow: 0 4px 24px -6px rgb(45 13 92 / 0.08);
+
+  --dc-duration-fast: 160ms;
+  --dc-duration-base: 240ms;
+  --dc-duration-slow: 400ms;
+  --dc-stagger-step: 60ms;
 
   --dc-font-display: var(--font-display), system-ui, sans-serif;
   --dc-font-body: var(--font-body), system-ui, sans-serif;
 
-  /* Hero mesh */
-  --dc-mesh-a: rgb(124 58 237 / 0.12);
-  --dc-mesh-b: rgb(91 33 182 / 0.08);
-  --dc-mesh-c: rgb(243 234 255 / 0.9);
+  --dc-mesh-a: rgb(105 48 211 / 0.14);
+  --dc-mesh-b: rgb(124 77 255 / 0.08);
+  --dc-mesh-c: rgb(255 255 255 / 0.92);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -63,7 +75,6 @@ body {
   font-family: var(--dc-font-body);
 }
 
-/* Page backdrop noise + soft gradient (site-only polish) */
 .dc-page-bg {
   position: relative;
   isolation: isolate;
@@ -74,8 +85,8 @@ body {
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(1200px 600px at 100% -10%, var(--dc-mesh-a), transparent 55%),
-    radial-gradient(900px 500px at -5% 30%, var(--dc-mesh-b), transparent 50%),
+    radial-gradient(1000px 520px at 100% 0%, var(--dc-mesh-a), transparent 58%),
+    radial-gradient(800px 480px at 0% 40%, var(--dc-mesh-b), transparent 52%),
     linear-gradient(180deg, var(--dc-mesh-c), var(--dc-bg));
   pointer-events: none;
 }
@@ -84,19 +95,26 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  opacity: 0.035;
+  opacity: 0.028;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events: none;
 }
 
-/* Keyframes — consumed by Framer / CSS modules */
+/* بطاقة تطبيق — للأقسام البارزة */
+.dc-app-card {
+  border-radius: var(--dc-radius-2xl);
+  background: var(--dc-surface);
+  box-shadow: var(--dc-shadow-card);
+  border: 1px solid rgb(105 48 211 / 0.08);
+}
+
 @keyframes dc-float {
   0%,
   100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-6px);
+    transform: translateY(-5px);
   }
 }
 
@@ -111,13 +129,13 @@ body {
 
 @keyframes dc-pulse-ring {
   0% {
-    box-shadow: 0 0 0 0 rgb(124 58 237 / 0.35);
+    box-shadow: 0 0 0 0 rgb(105 48 211 / 0.35);
   }
   70% {
-    box-shadow: 0 0 0 14px rgb(124 58 237 / 0);
+    box-shadow: 0 0 0 14px rgb(105 48 211 / 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgb(124 58 237 / 0);
+    box-shadow: 0 0 0 0 rgb(105 48 211 / 0);
   }
 }
 
@@ -131,13 +149,11 @@ body {
   }
 }
 
-/* Focus visible — unified accessibility */
 :focus-visible {
   outline: 2px solid var(--dc-primary);
   outline-offset: 3px;
 }
 
-/* Interactive card lift — use with group */
 .dc-card-interactive {
   transition:
     transform var(--dc-duration-base) var(--ease-dc-out, ease),
@@ -145,6 +161,6 @@ body {
     border-color var(--dc-duration-fast) ease;
 }
 .dc-card-interactive:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
   box-shadow: var(--dc-shadow-md);
 }

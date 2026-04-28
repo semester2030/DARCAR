@@ -8,27 +8,27 @@ export function CtaBandSection({ block }: { block: CtaBandBlock }) {
   const reduce = useReducedMotion();
 
   return (
-    <section id="download" className="scroll-mt-24 px-4 pb-24 pt-4 sm:px-6 sm:pb-28">
+    <section id="download" className="scroll-mt-24 px-4 pb-20 pt-6 sm:px-6 sm:pb-24 sm:pt-8">
       <motion.div
-        initial={{ opacity: 0, y: reduce ? 0 : 20 }}
+        initial={{ opacity: 0, y: reduce ? 0 : 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: dcMotion.slow, ease: dcMotion.easeOut }}
-        className="relative mx-auto max-w-4xl overflow-hidden rounded-[var(--dc-radius-xl)] border border-[var(--dc-primary-light)] bg-gradient-to-l from-[var(--dc-primary-dark)] to-[var(--dc-primary)] p-[1px] shadow-[var(--dc-shadow-glow)]"
+        className="relative mx-auto max-w-3xl overflow-hidden rounded-[var(--dc-radius-2xl)] bg-gradient-to-br from-[var(--dc-primary-bright)] via-[var(--dc-primary)] to-[var(--dc-primary-dark)] p-[2px] shadow-[var(--dc-shadow-glow)]"
       >
-        <div className="rounded-[calc(var(--dc-radius-xl)-1px)] bg-[var(--dc-surface)]/5 px-6 py-10 text-center backdrop-blur-sm sm:px-10">
+        <div className="rounded-[calc(var(--dc-radius-2xl)-2px)] bg-gradient-to-b from-white/12 to-transparent px-6 py-12 text-center sm:px-10 sm:py-14">
           <h2
-            className="mb-3 text-2xl font-bold text-[var(--dc-surface)] sm:text-3xl"
+            className="mb-4 text-2xl font-extrabold text-white sm:text-3xl"
             style={{ fontFamily: "var(--dc-font-display)" }}
           >
             {block.titleAr}
           </h2>
-          <p className="mx-auto mb-8 max-w-xl text-sm leading-relaxed text-[var(--dc-primary-light)] sm:text-base">
+          <p className="mx-auto mb-9 max-w-lg text-sm leading-relaxed text-white/90 sm:text-base">
             {block.bodyAr}
           </p>
           <a
             href={block.href}
-            className="inline-flex min-h-11 items-center justify-center rounded-[var(--dc-radius-lg)] bg-[var(--dc-surface)] px-8 py-2.5 text-sm font-bold text-[var(--dc-primary-dark)] shadow-lg transition-[transform,box-shadow] duration-[var(--dc-duration-base)] hover:-translate-y-0.5 hover:shadow-xl"
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-white px-10 py-3 text-sm font-extrabold text-[var(--dc-primary-dark)] shadow-lg transition-[transform,box-shadow] duration-[var(--dc-duration-base)] hover:-translate-y-0.5 hover:shadow-xl"
           >
             {block.buttonAr}
           </a>

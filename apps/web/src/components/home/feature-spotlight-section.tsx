@@ -38,7 +38,7 @@ function MediaBlock({ item }: { item: FeatureSpotlightItem }) {
 
   if (yt) {
     return (
-      <div className="aspect-video w-full overflow-hidden rounded-[var(--dc-radius-lg)] border border-[var(--dc-primary-light)] bg-black shadow-inner">
+      <div className="aspect-video w-full overflow-hidden rounded-[var(--dc-radius-2xl)] border border-[var(--dc-primary)]/10 bg-black shadow-[var(--dc-shadow-md)]">
         <iframe
           title={item.imageAltAr ?? item.titleAr}
           src={yt}
@@ -53,7 +53,7 @@ function MediaBlock({ item }: { item: FeatureSpotlightItem }) {
 
   if (direct && item.videoUrl) {
     return (
-      <div className="aspect-video w-full overflow-hidden rounded-[var(--dc-radius-lg)] border border-[var(--dc-primary-light)] bg-black shadow-inner">
+      <div className="aspect-video w-full overflow-hidden rounded-[var(--dc-radius-2xl)] border border-[var(--dc-primary)]/10 bg-black shadow-[var(--dc-shadow-md)]">
         <video
           className="h-full w-full object-cover"
           controls
@@ -69,7 +69,7 @@ function MediaBlock({ item }: { item: FeatureSpotlightItem }) {
 
   if (item.imageUrl) {
     return (
-      <div className="overflow-hidden rounded-[var(--dc-radius-lg)] border border-[var(--dc-primary-light)] shadow-md">
+      <div className="overflow-hidden rounded-[var(--dc-radius-2xl)] border border-[var(--dc-primary)]/10 shadow-[var(--dc-shadow-md)]">
         {/* روابط CDN من الاستديو — أي نطاق؛ next/image يحتاج allowlist لكل مزود */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -83,9 +83,8 @@ function MediaBlock({ item }: { item: FeatureSpotlightItem }) {
   }
 
   return (
-    <div className="flex aspect-[16/10] items-center justify-center rounded-[var(--dc-radius-lg)] border border-dashed border-[var(--dc-primary-light)] bg-[var(--dc-primary-light-lighter)]/50 text-sm text-[var(--dc-text-secondary)]">
-      أضف من الاستديو: <span className="mx-1 font-semibold text-[var(--dc-primary)]">imageUrl</span> أو{" "}
-      <span className="font-semibold text-[var(--dc-primary)]">videoUrl</span> في ملف المحتوى
+    <div className="flex aspect-[16/10] items-center justify-center rounded-[var(--dc-radius-2xl)] border-2 border-dashed border-[var(--dc-primary)]/20 bg-[var(--dc-primary-light-lighter)] px-4 text-center text-sm font-semibold leading-relaxed text-[var(--dc-text-secondary)]">
+      يمكن إضافة صورة أو فيديو للعرض من لوحة التحرير ليظهر هنا بشكل احترافي.
     </div>
   );
 }
@@ -94,22 +93,22 @@ export function FeatureSpotlightSection({ block }: { block: FeatureSpotlightBloc
   const reduce = useReducedMotion();
 
   return (
-    <section id="features" className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-24">
+    <section id="features" className="scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: reduce ? 0 : 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: dcMotion.base, ease: dcMotion.easeOut }}
-          className="mb-16 text-center"
+          className="mb-12 text-center sm:mb-16"
         >
           <h2
-            className="mb-3 text-3xl font-bold text-[var(--dc-text-primary)] sm:text-4xl"
+            className="mb-4 text-2xl font-extrabold text-[var(--dc-primary-dark)] sm:text-3xl md:text-4xl"
             style={{ fontFamily: "var(--dc-font-display)" }}
           >
             {block.sectionTitleAr}
           </h2>
-          <p className="mx-auto max-w-3xl text-base leading-relaxed text-[var(--dc-text-secondary)] sm:text-lg">
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-[var(--dc-text-secondary)] sm:text-lg">
             {block.sectionSubtitleAr}
           </p>
         </motion.div>
@@ -146,7 +145,7 @@ function SpotlightRow({
         duration: dcMotion.slow,
         ease: dcMotion.easeOut,
       }}
-      className={`dc-card-interactive flex flex-col gap-8 rounded-[var(--dc-radius-xl)] border bg-[var(--dc-surface)]/95 p-6 shadow-[var(--dc-shadow-sm)] backdrop-blur-sm sm:p-8 lg:flex-row lg:items-stretch lg:gap-10 ${a.border} ${reverse ? "lg:flex-row-reverse" : ""}`}
+      className={`dc-card-interactive flex flex-col gap-8 rounded-[var(--dc-radius-2xl)] border bg-[var(--dc-surface)] p-6 sm:p-8 lg:flex-row lg:items-stretch lg:gap-10 ${a.border} ${reverse ? "lg:flex-row-reverse" : ""}`}
     >
       <div className="min-w-0 flex-1 lg:max-w-[52%]">
         <MediaBlock item={item} />
@@ -154,13 +153,13 @@ function SpotlightRow({
       <div className="flex min-w-0 flex-1 flex-col justify-center">
         <div className="mb-4 flex items-start gap-3">
           <div
-            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-[var(--dc-radius-lg)] bg-gradient-to-br ${a.iconBg} ${a.icon}`}
+            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${a.iconBg} ${a.icon}`}
           >
             <DcIcon name={item.iconKey} />
           </div>
           <div>
             <h3
-              className="text-xl font-bold text-[var(--dc-text-primary)] sm:text-2xl"
+              className="text-xl font-extrabold text-[var(--dc-primary-dark)] sm:text-2xl"
               style={{ fontFamily: "var(--dc-font-display)" }}
             >
               {item.titleAr}
@@ -169,11 +168,15 @@ function SpotlightRow({
         </div>
         <div className="space-y-4 text-[var(--dc-text-secondary)]">
           <div>
-            <p className="mb-1 text-xs font-bold uppercase tracking-wider text-[var(--dc-primary)]">ما هي؟</p>
+            <p className="mb-2 inline-flex rounded-full bg-[var(--dc-primary-light-lighter)] px-3 py-1 text-xs font-extrabold text-[var(--dc-primary)]">
+              ما هي؟
+            </p>
             <p className="leading-relaxed">{item.whatItIsAr}</p>
           </div>
           <div>
-            <p className="mb-1 text-xs font-bold uppercase tracking-wider text-[var(--dc-primary-dark)]">دورها</p>
+            <p className="mb-2 inline-flex rounded-full bg-[var(--dc-stat-mint)] px-3 py-1 text-xs font-extrabold text-emerald-900">
+              دورها لكم
+            </p>
             <p className="leading-relaxed">{item.roleAr}</p>
           </div>
         </div>

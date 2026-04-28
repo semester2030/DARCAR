@@ -61,7 +61,7 @@ export default function AboutPage() {
             {pillars.map((p) => (
               <li
                 key={p.title}
-                className="dc-card-interactive rounded-[var(--dc-radius-xl)] border border-[var(--dc-primary-light)] bg-[var(--dc-surface)]/90 p-6 text-center shadow-[var(--dc-shadow-sm)]"
+                className="dc-card-interactive dc-app-card p-6 text-center"
               >
                 <h3 className="text-lg font-bold text-[var(--dc-primary-dark)]">{p.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--dc-text-secondary)]">{p.body}</p>
@@ -70,11 +70,11 @@ export default function AboutPage() {
           </ul>
         </section>
 
-        <section className="rounded-[var(--dc-radius-xl)] border border-[var(--dc-primary-light)] bg-gradient-to-l from-[var(--dc-primary-light-lighter)] to-[var(--dc-surface)] p-8 text-center">
+        <section className="dc-app-card bg-gradient-to-l from-[var(--dc-primary-light-lighter)] to-[var(--dc-surface)] p-8 text-center">
           <p className="text-[var(--dc-text-secondary)]">استكشفوا على الصفحة الرئيسية ما تقدّمه المنصة لقطاعكم.</p>
           <Link
             href="/#services"
-            className="mt-4 inline-flex items-center justify-center rounded-[var(--dc-radius-lg)] bg-[var(--dc-primary)] px-6 py-2.5 text-sm font-bold text-[var(--dc-surface)] shadow-md transition-transform hover:-translate-y-0.5"
+            className="mt-4 inline-flex items-center justify-center rounded-full bg-[var(--dc-primary)] px-8 py-3 text-sm font-extrabold text-white shadow-md transition-transform hover:-translate-y-0.5"
           >
             ما نقدّمه
           </Link>
