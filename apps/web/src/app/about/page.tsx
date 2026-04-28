@@ -6,21 +6,21 @@ import { SubpageHero } from "@/components/site/subpage-hero";
 export const metadata: Metadata = {
   title: "من نحن",
   description:
-    "تعرف على رؤية دار كار: منصة موحّدة للعقارات والسيارات بتجربة رقمية احترافية مصممة للسوق السعودي.",
+    "دار كار منصة سعودية تخدم المكاتب العقارية ومعارض السيارات بتجربة عرض وتواصل موحّدة تليق بعلامتكم.",
 };
 
 const pillars = [
   {
     title: "رؤية موحّدة",
-    body: "جمع مسار العميل العقاري ومعرض السيارات في منتج واحد يقلل الاحتكاك ويرفع جودة العرض.",
+    body: "جمع مسار العميل في العقارات والسيارات في تجربة واحدة تقلّل الاحتكاك وتبرز جودة عروضكم.",
   },
   {
-    title: "جودة تقنية",
-    body: "أداء عالٍ، أمان للبيانات، واستعداد للتوسع — لأن الثقة الرقمية جزء من هوية العلامة.",
+    title: "جودة العرض",
+    body: "صور وفيديو وخرائط واضحة — لأن الانطباع الأول غالباً ما يُقرر في ثوانٍ أمام العميل.",
   },
   {
-    title: "تجربة عربية أصيلة",
-    body: "RTL كامل، خطوط عربية واضحة، ولغة واجهة تناسب جمهورنا المحلي دون اختصار.",
+    title: "تجربة عربية كاملة",
+    body: "لغة وواجهة تناسب جمهوركم المحلي، مع احترام اتجاه القراءة والصياغة التي يتوقعها العميل السعودي.",
   },
 ] as const;
 
@@ -44,9 +44,9 @@ export default function AboutPage() {
             قصتنا
           </h2>
           <p className="mt-4 text-base sm:text-lg">
-            نؤمن بأن السوق السعودي يستحق أدوات تعكس سرعته وتنوعه: خرائط دقيقة، وسائط غنية، ومسارات
-            واضحة للمستخدم النهائي ولصاحب العمل في آن واحد. {siteConfig.nameAr} تجمع هذه العناصر في
-            تجربة واحدة متناسقة مع هوية بصرية قوية.
+            نؤمن بأن السوق السعودي يستحق أدوات تعكس تنوعه وسرعته: خرائط دقيقة، وسائط غنية، ومسارات واضحة للمستخدم
+            ولصاحب العمل في آن واحد. {siteConfig.nameAr} تجمع هذه العناصر في تجربة واحدة متناسقة مع هوية بصرية
+            قوية لعلامتكم.
           </p>
         </section>
 
@@ -71,14 +71,12 @@ export default function AboutPage() {
         </section>
 
         <section className="rounded-[var(--dc-radius-xl)] border border-[var(--dc-primary-light)] bg-gradient-to-l from-[var(--dc-primary-light-lighter)] to-[var(--dc-surface)] p-8 text-center">
-          <p className="text-[var(--dc-text-secondary)]">
-            جاهز للعودة للصفحة الرئيسية واستكشاف المزايا التقنية؟
-          </p>
+          <p className="text-[var(--dc-text-secondary)]">استكشفوا على الصفحة الرئيسية ما تقدّمه المنصة لقطاعكم.</p>
           <Link
-            href="/#tech"
+            href="/#services"
             className="mt-4 inline-flex items-center justify-center rounded-[var(--dc-radius-lg)] bg-[var(--dc-primary)] px-6 py-2.5 text-sm font-bold text-[var(--dc-surface)] shadow-md transition-transform hover:-translate-y-0.5"
           >
-            القوة التقنية
+            ما نقدّمه
           </Link>
         </section>
       </div>

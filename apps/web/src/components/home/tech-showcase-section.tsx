@@ -8,7 +8,7 @@ export function TechShowcaseSection({ block }: { block: TechShowcaseBlock }) {
   const reduce = useReducedMotion();
 
   return (
-    <section id="tech" className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-24">
+    <section id="services" className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-4xl text-center">
         <motion.h2
           initial={{ opacity: 0, y: reduce ? 0 : 12 }}

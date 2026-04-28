@@ -19,7 +19,7 @@ export const storeUrls = {
 export const siteConfig = {
   nameAr: "دار كار",
   nameEn: "Dar Car",
-  taglineAr: "عقارات وسيارات — منصة احترافية",
+  taglineAr: "للمكاتب العقارية ومعارض السيارات — حضور رقمي يليق بعلامتكم",
   defaultLocale: "ar" as const,
   locales: ["ar", "en"] as const,
   supportEmail: "support@reca.com",
@@ -27,8 +27,8 @@ export const siteConfig = {
   nav: [
     { href: "/", label: "الرئيسية" },
     { href: "/#about-dar-car", label: "التعريف" },
-    { href: "/#features", label: "المزايا" },
-    { href: "/#tech", label: "التقنية" },
+    { href: "/#features", label: "الخدمات" },
+    { href: "/#services", label: "ما نقدّمه" },
     { href: "/download", label: "التحميل" },
     { href: "/about", label: "من نحن" },
     { href: "/contact", label: "تواصل" },

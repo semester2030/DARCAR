@@ -14,7 +14,7 @@ export default function DownloadPage() {
     <>
       <SubpageHero
         title="تحميل التطبيق"
-        subtitle="روابط المتاجر الرسمية — حدّث المعرفات في متغيرات البيئة عند نشر التطبيق الفعلي."
+        subtitle="الروابط الرسمية للمتاجر — جرّبوا دار كار على الجوال وابدأوا عرض عقاراتكم ومركباتكم بأسلوب يليق بعلامتكم."
         breadcrumb={[
           { label: "الرئيسية", href: "/" },
           { label: "التحميل", href: "/download" },
@@ -39,16 +39,8 @@ export default function DownloadPage() {
             Google Play
           </a>
         </div>
-        <p className="mt-10 text-center text-sm leading-relaxed text-[var(--dc-text-secondary)]">
-          يمكن تخصيص الروابط عبر{" "}
-          <code className="rounded bg-[var(--dc-primary-light-lighter)] px-1" dir="ltr">
-            NEXT_PUBLIC_IOS_APP_STORE_URL
-          </code>{" "}
-          و{" "}
-          <code className="rounded bg-[var(--dc-primary-light-lighter)] px-1" dir="ltr">
-            NEXT_PUBLIC_GOOGLE_PLAY_URL
-          </code>{" "}
-          في ملف البيئة قبل البناء.
+        <p className="mt-10 text-center text-sm leading-relaxed text-[var(--dc-text-secondary)]" dir="rtl">
+          عند الإطلاق الكامل للتطبيق على المتاجر، تُحدَّث الروابط تلقائياً لتوجّهكم مباشرة إلى صفحة دار كار الرسمية.
         </p>
         <p className="mt-8 text-center">
           <Link href="/" className="text-sm font-semibold text-[var(--dc-primary)] hover:underline">

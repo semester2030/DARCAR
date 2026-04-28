@@ -400,7 +400,7 @@ export function AdminVisualHomeEditor({ doc, onChange }: Props) {
           const b = block as TechShowcaseBlock;
           const setBlock = (next: TechShowcaseBlock) => onChange(repBlock(doc, i, next));
           return (
-            <SectionShell key={key} title="قسم التقنية" defaultOpen={openFirst}>
+            <SectionShell key={key} title="قسم «ما نقدّمه» (وسوم)" defaultOpen={openFirst}>
               <div className="grid gap-4">
               <div>
                 {lbl("العنوان")}

@@ -15,7 +15,7 @@ export function SiteFooter() {
               {siteConfig.nameAr}
             </p>
             <p className="leading-relaxed text-[var(--dc-text-secondary)]">
-              منصة عقارات وسيارات — تجربة رقمية موحّدة لعرض أصولك والتواصل مع عملائك.
+              للمكاتب العقارية ومعارض السيارات — عرض أصولكم على الخريطة، كتالوج غني، وتجربة تواصل تليق بعلامتكم.
             </p>
           </div>
           <div>
