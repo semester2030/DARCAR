@@ -19,7 +19,7 @@ export const storeUrls = {
 export const siteConfig = {
   nameAr: "دار كار",
   nameEn: "Dar Car",
-  taglineAr: "للمكاتب العقارية ومعارض السيارات — حضور رقمي يليق بعلامتكم",
+  taglineAr: "للعقارات والسيارات — أفراد، معارض، شركات عقارية، ووسطاء",
   defaultLocale: "ar" as const,
   locales: ["ar", "en"] as const,
   supportEmail: "support@reca.com",
