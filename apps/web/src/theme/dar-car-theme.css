@@ -1,35 +1,36 @@
 /**
- * Dar Car — واجهة موازية لتطبيق الجوال: بنفسجي حيّ، أسطح بيضاء، بطاقات بزوايا عريضة وظلال ناعمة.
+ * Dar Car — واجهة تسويق: أبيض كأساس، أزرق لامع + سماوي كلمسة علامة،
+ * وهِمس إنديغو (قريب من البنفسجي) في الخلفية فقط — بدون هيمنة بنفسجي.
  */
 @import "tailwindcss";
 
 :root {
-  /* بنفسجي التطبيق — أقرب لشاشات اختيار الحساب والقوائم */
-  --dc-primary: #6930d3;
-  --dc-primary-dark: #4a1d9e;
-  --dc-primary-bright: #7c4dff;
-  --dc-primary-light: #e8ddff;
-  --dc-primary-light-lighter: #f4efff;
-  --dc-header-tint: #f6f2ff;
+  /* لمسة العلامة — أزرق لامع وسماوي */
+  --dc-primary: #0b7cff;
+  --dc-primary-bright: #22d3ee;
+  --dc-primary-dark: #064a8f;
+  --dc-primary-light: #c8e6ff;
+  --dc-primary-light-lighter: #f0f9ff;
 
-  --dc-text-primary: #2d0d5c;
-  --dc-text-secondary: #5b3d8a;
-  --dc-text-muted: #7c6b9e;
+  /* نصوص — سليت داكن على أبيض */
+  --dc-text-primary: #0f172a;
+  --dc-text-secondary: #475569;
+  --dc-text-muted: #64748b;
 
-  --dc-bg: #f3f0fa;
+  --dc-bg: #f8fafc;
   --dc-surface: #ffffff;
   --dc-surface-elevated: #ffffff;
 
   --dc-success: #10b981;
   --dc-error: #ef4444;
-  --dc-gold: #d4a017;
+  --dc-gold: #ca8a04;
   --dc-emerald: #059669;
 
-  /* بطاقات إحصائيات (مثل لوحات التطبيق) */
-  --dc-stat-violet: #ede9fe;
-  --dc-stat-mint: #d1fae5;
+  /* بلاطات إحصائية — ألوان هادئة متناغمة (أزرق / نعناع / سماء / دفء خفيف) */
+  --dc-stat-violet: #e8efff;
+  --dc-stat-mint: #ecfdf5;
   --dc-stat-sky: #e0f2fe;
-  --dc-stat-amber: #fef3c7;
+  --dc-stat-amber: #fff7ed;
 
   --dc-radius-sm: 0.625rem;
   --dc-radius-md: 1rem;
@@ -37,23 +38,29 @@
   --dc-radius-xl: 1.75rem;
   --dc-radius-2xl: 2rem;
 
-  --dc-shadow-sm: 0 2px 8px rgb(45 13 92 / 0.06);
-  --dc-shadow-md: 0 8px 32px -8px rgb(73 29 158 / 0.14);
-  --dc-shadow-card: 0 12px 40px -16px rgb(45 13 92 / 0.12);
-  --dc-shadow-glow: 0 0 0 1px rgb(105 48 211 / 0.12), 0 20px 50px -20px rgb(105 48 211 / 0.28);
-  --dc-header-shadow: 0 4px 24px -6px rgb(45 13 92 / 0.08);
+  --dc-shadow-sm: 0 2px 8px rgb(15 23 42 / 0.04);
+  --dc-shadow-md: 0 12px 40px -12px rgb(15 23 42 / 0.1);
+  --dc-shadow-card: 0 16px 48px -20px rgb(15 23 42 / 0.08);
+  --dc-shadow-card-hover: 0 24px 56px -18px rgb(11 124 255 / 0.12);
+  --dc-shadow-glow: 0 0 0 1px rgb(11 124 255 / 0.12), 0 20px 50px -18px rgb(11 124 255 / 0.22);
+  --dc-header-shadow: 0 4px 24px -6px rgb(15 23 42 / 0.06);
 
   --dc-duration-fast: 160ms;
-  --dc-duration-base: 240ms;
-  --dc-duration-slow: 400ms;
-  --dc-stagger-step: 60ms;
+  --dc-duration-base: 260ms;
+  --dc-duration-slow: 440ms;
+  --dc-stagger-step: 55ms;
 
   --dc-font-display: var(--font-display), system-ui, sans-serif;
   --dc-font-body: var(--font-body), system-ui, sans-serif;
 
-  --dc-mesh-a: rgb(105 48 211 / 0.14);
-  --dc-mesh-b: rgb(124 77 255 / 0.08);
-  --dc-mesh-c: rgb(255 255 255 / 0.92);
+  /* خلفية الصفحة: وهِس أزرق + سماوي + إنديغو خفيف جداً (قريب من البنفسجي) */
+  --dc-mesh-a: rgb(11 124 255 / 0.055);
+  --dc-mesh-b: rgb(34 211 238 / 0.045);
+  --dc-mesh-c: rgb(99 102 241 / 0.035);
+  --dc-mesh-d: rgb(255 255 255 / 0.98);
+
+  --ease-dc-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-dc-spring: cubic-bezier(0.34, 1.45, 0.64, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -85,9 +92,10 @@ body {
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(1000px 520px at 100% 0%, var(--dc-mesh-a), transparent 58%),
-    radial-gradient(800px 480px at 0% 40%, var(--dc-mesh-b), transparent 52%),
-    linear-gradient(180deg, var(--dc-mesh-c), var(--dc-bg));
+    radial-gradient(900px 480px at 100% -10%, var(--dc-mesh-a), transparent 55%),
+    radial-gradient(700px 420px at 0% 35%, var(--dc-mesh-b), transparent 50%),
+    radial-gradient(600px 400px at 80% 90%, var(--dc-mesh-c), transparent 45%),
+    linear-gradient(180deg, var(--dc-mesh-d), var(--dc-bg));
   pointer-events: none;
 }
 .dc-page-bg::after {
@@ -95,17 +103,28 @@ body {
   position: fixed;
   inset: 0;
   z-index: -1;
-  opacity: 0.028;
+  opacity: 0.022;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events: none;
 }
 
-/* بطاقة تطبيق — للأقسام البارزة */
+/* بطاقة — أبيض نظيف، حدود خفيفة، تحويم «فخم» */
 .dc-app-card {
   border-radius: var(--dc-radius-2xl);
   background: var(--dc-surface);
   box-shadow: var(--dc-shadow-card);
-  border: 1px solid rgb(105 48 211 / 0.08);
+  border: 1px solid rgb(15 23 42 / 0.06);
+  transition:
+    transform var(--dc-duration-base) var(--ease-dc-out),
+    box-shadow var(--dc-duration-base) var(--ease-dc-out),
+    border-color var(--dc-duration-fast) ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc-app-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--dc-shadow-card-hover);
+    border-color: rgb(11 124 255 / 0.14);
+  }
 }
 
 @keyframes dc-float {
@@ -114,7 +133,7 @@ body {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
   }
 }
 
@@ -129,13 +148,22 @@ body {
 
 @keyframes dc-pulse-ring {
   0% {
-    box-shadow: 0 0 0 0 rgb(105 48 211 / 0.35);
+    box-shadow: 0 0 0 0 rgb(11 124 255 / 0.32);
   }
   70% {
-    box-shadow: 0 0 0 14px rgb(105 48 211 / 0);
+    box-shadow: 0 0 0 14px rgb(11 124 255 / 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgb(105 48 211 / 0);
+    box-shadow: 0 0 0 0 rgb(11 124 255 / 0);
+  }
+}
+
+@keyframes dc-border-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
   }
 }
 
@@ -147,6 +175,12 @@ body {
   .dc-icon-ring {
     animation: none;
   }
+  .dc-app-card:hover {
+    transform: none;
+  }
+  .dc-card-interactive:hover {
+    transform: none;
+  }
 }
 
 :focus-visible {
@@ -156,11 +190,55 @@ body {
 
 .dc-card-interactive {
   transition:
-    transform var(--dc-duration-base) var(--ease-dc-out, ease),
-    box-shadow var(--dc-duration-base) var(--ease-dc-out, ease),
+    transform var(--dc-duration-base) var(--ease-dc-out),
+    box-shadow var(--dc-duration-base) var(--ease-dc-out),
     border-color var(--dc-duration-fast) ease;
 }
-.dc-card-interactive:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--dc-shadow-md);
+@media (hover: hover) and (pointer: fine) {
+  .dc-card-interactive:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--dc-shadow-card-hover);
+    border-color: rgb(11 124 255 / 0.18) !important;
+  }
+}
+
+/* إطار متدرج يتحرك — للأزرار أو الحواف */
+.dc-gradient-ring {
+  background: linear-gradient(
+    120deg,
+    var(--dc-primary-bright),
+    var(--dc-primary),
+    #6366f1,
+    var(--dc-primary-bright)
+  );
+  background-size: 200% 100%;
+  animation: dc-border-flow 5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dc-gradient-ring {
+    animation: none;
+    background: linear-gradient(120deg, var(--dc-primary-bright), var(--dc-primary));
+  }
+}
+
+/* لمعة تمر على الشعار */
+.dc-logo-shine {
+  position: relative;
+  overflow: hidden;
+}
+.dc-logo-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-120%) skewX(-12deg);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.35), transparent);
+  transition: transform 0.6s var(--ease-dc-out);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .dc-logo-shine:hover::after,
+  .group:hover .dc-logo-shine::after {
+    transform: translateX(120%) skewX(-12deg);
+  }
 }

@@ -8,7 +8,7 @@ export default function NotFound() {
         404
       </p>
       <h1
-        className="mt-4 bg-gradient-to-l from-[var(--dc-primary)] to-[var(--dc-primary-dark)] bg-clip-text text-4xl font-bold text-transparent sm:text-5xl"
+        className="mt-4 bg-gradient-to-l from-[var(--dc-primary-bright)] via-[var(--dc-primary)] to-[var(--dc-primary-dark)] bg-clip-text text-4xl font-bold text-transparent sm:text-5xl"
         style={{ fontFamily: "var(--dc-font-display)" }}
       >
         الصفحة غير موجودة
@@ -18,7 +18,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
-        className="mt-10 inline-flex min-h-11 items-center justify-center rounded-[var(--dc-radius-lg)] bg-[var(--dc-primary)] px-8 py-2.5 text-sm font-bold text-[var(--dc-surface)] shadow-[var(--dc-shadow-md)] transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[var(--dc-shadow-glow)]"
+        className="mt-10 inline-flex min-h-11 items-center justify-center rounded-[var(--dc-radius-lg)] bg-gradient-to-l from-[var(--dc-primary-dark)] to-[var(--dc-primary)] px-8 py-2.5 text-sm font-bold text-white shadow-[var(--dc-shadow-md)] transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[var(--dc-shadow-glow)]"
       >
         الصفحة الرئيسية
       </Link>

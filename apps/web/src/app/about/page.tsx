@@ -63,18 +63,18 @@ export default function AboutPage() {
                 key={p.title}
                 className="dc-card-interactive dc-app-card p-6 text-center"
               >
-                <h3 className="text-lg font-bold text-[var(--dc-primary-dark)]">{p.title}</h3>
+                <h3 className="text-lg font-bold text-[var(--dc-text-primary)]">{p.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-[var(--dc-text-secondary)]">{p.body}</p>
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="dc-app-card bg-gradient-to-l from-[var(--dc-primary-light-lighter)] to-[var(--dc-surface)] p-8 text-center">
+        <section className="dc-app-card bg-gradient-to-l from-sky-50/90 to-white p-8 text-center">
           <p className="text-[var(--dc-text-secondary)]">استكشفوا على الصفحة الرئيسية ما تقدّمه المنصة لقطاعكم.</p>
           <Link
             href="/#services"
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-[var(--dc-primary)] px-8 py-3 text-sm font-extrabold text-white shadow-md transition-transform hover:-translate-y-0.5"
+            className="mt-4 inline-flex items-center justify-center rounded-full bg-gradient-to-l from-[var(--dc-primary-dark)] to-[var(--dc-primary)] px-8 py-3 text-sm font-extrabold text-white shadow-md transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[var(--dc-shadow-glow)]"
           >
             ما نقدّمه
           </Link>

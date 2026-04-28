@@ -38,10 +38,10 @@ export function FeatureGridSection({ block }: { block: FeatureGridBlock }) {
     <section id="features" className="scroll-mt-24 px-4 py-20 sm:px-6 sm:py-24">
       <div className="mx-auto max-w-6xl">
         <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: reduce ? 0 : 20, filter: reduce ? "none" : "blur(6px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: dcMotion.base, ease: dcMotion.easeOut }}
+          transition={{ duration: dcMotion.slow, ease: dcMotion.easeOut }}
           className="mb-14 text-center"
         >
           <h2
@@ -83,7 +83,7 @@ function FeatureCard({
         duration: dcMotion.base,
         ease: dcMotion.easeOut,
       }}
-      className={`dc-card-interactive group relative overflow-hidden rounded-[var(--dc-radius-xl)] border border-[var(--dc-primary-light)] bg-[var(--dc-surface)]/95 p-6 shadow-[var(--dc-shadow-sm)] backdrop-blur-sm ${a.hoverBorder}`}
+      className={`dc-card-interactive group relative overflow-hidden rounded-[var(--dc-radius-xl)] border border-slate-100 bg-white/95 p-6 shadow-[var(--dc-shadow-sm)] backdrop-blur-sm ${a.hoverBorder}`}
     >
       <div
         className={`pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br opacity-60 blur-2xl ${a.ring}`}
@@ -91,7 +91,7 @@ function FeatureCard({
       />
       <div className="relative flex gap-4">
         <div
-          className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-[var(--dc-radius-lg)] bg-gradient-to-br from-[var(--dc-primary-light-lighter)] to-[var(--dc-primary-light)] shadow-inner transition-shadow duration-[var(--dc-duration-base)] group-hover:shadow-[0_0_0_3px_rgb(124_58_237_/_0.18)] ${a.icon}`}
+          className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-[var(--dc-radius-lg)] bg-gradient-to-br from-sky-50 to-cyan-50/80 shadow-inner transition-shadow duration-[var(--dc-duration-base)] group-hover:shadow-[0_0_0_3px_rgb(11_124_255_/_0.2)] ${a.icon}`}
         >
           <DcIcon name={item.iconKey} className="group-hover:scale-110" />
         </div>
@@ -101,7 +101,7 @@ function FeatureCard({
         </div>
       </div>
       <div
-        className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-full origin-right scale-x-0 bg-gradient-to-l from-[var(--dc-primary)] to-[var(--dc-primary-dark)] transition-transform duration-[var(--dc-duration-slow)] ease-out group-hover:origin-left group-hover:scale-x-100"
+        className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-full origin-right scale-x-0 bg-gradient-to-l from-[var(--dc-primary-bright)] via-[var(--dc-primary)] to-[var(--dc-primary-dark)] transition-transform duration-[var(--dc-duration-slow)] ease-out group-hover:origin-left group-hover:scale-x-100"
         aria-hidden
       />
     </motion.article>

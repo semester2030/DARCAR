@@ -11,14 +11,15 @@ export function TechShowcaseSection({ block }: { block: TechShowcaseBlock }) {
     <section id="services" className="scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-4xl">
         <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: reduce ? 0 : 20, filter: reduce ? "none" : "blur(6px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true }}
-          transition={{ duration: dcMotion.base, ease: dcMotion.easeOut }}
+          transition={{ duration: dcMotion.slow, ease: dcMotion.easeOut }}
+          whileHover={reduce ? undefined : { y: -2 }}
           className="dc-app-card px-6 py-10 text-center sm:px-10 sm:py-12"
         >
           <h2
-            className="mb-4 text-2xl font-extrabold text-[var(--dc-primary-dark)] sm:text-3xl md:text-4xl"
+            className="mb-4 text-2xl font-extrabold text-[var(--dc-text-primary)] sm:text-3xl md:text-4xl"
             style={{ fontFamily: "var(--dc-font-display)" }}
           >
             {block.titleAr}
@@ -42,17 +43,22 @@ export function TechShowcaseSection({ block }: { block: TechShowcaseBlock }) {
               <motion.li
                 key={tag}
                 variants={{
-                  hidden: { opacity: 0, y: reduce ? 0 : 8 },
+                  hidden: { opacity: 0, y: reduce ? 0 : 12, scale: 0.96 },
                   show: {
                     opacity: 1,
                     y: 0,
-                    transition: { duration: dcMotion.fast, ease: dcMotion.easeOut },
+                    scale: 1,
+                    transition: { duration: dcMotion.base, ease: dcMotion.easeSpring },
                   },
                 }}
               >
-                <span className="inline-flex cursor-default items-center rounded-full border-2 border-[var(--dc-primary)]/12 bg-[var(--dc-primary-light-lighter)] px-4 py-2.5 text-sm font-extrabold text-[var(--dc-primary-dark)] shadow-sm transition-[transform,box-shadow] duration-[var(--dc-duration-fast)] hover:-translate-y-0.5 hover:border-[var(--dc-primary)]/25 hover:shadow-md">
+                <motion.span
+                  whileHover={reduce ? undefined : { y: -4, scale: 1.03 }}
+                  whileTap={reduce ? undefined : { scale: 0.97 }}
+                  className="inline-flex cursor-default items-center rounded-full border border-slate-200/90 bg-gradient-to-b from-white to-sky-50/40 px-4 py-2.5 text-sm font-extrabold text-[var(--dc-text-primary)] shadow-sm ring-1 ring-sky-100/50 transition-[box-shadow,border-color] duration-[var(--dc-duration-fast)] hover:border-sky-300/70 hover:shadow-md"
+                >
                   {tag}
-                </span>
+                </motion.span>
               </motion.li>
             ))}
           </motion.ul>

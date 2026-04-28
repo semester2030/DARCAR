@@ -11,14 +11,15 @@ export function IntroArticleSection({ block }: { block: IntroArticleBlock }) {
     <section id="about-dar-car" className="scroll-mt-24 px-4 py-14 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-3xl">
         <motion.div
-          initial={{ opacity: 0, y: reduce ? 0 : 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: reduce ? 0 : 24, scale: reduce ? 1 : 0.98, filter: reduce ? "none" : "blur(6px)" }}
+          whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: dcMotion.base, ease: dcMotion.easeOut }}
+          transition={{ duration: dcMotion.slow, ease: dcMotion.easeOut }}
+          whileHover={reduce ? undefined : { y: -3 }}
           className="dc-app-card px-6 py-10 text-center sm:px-10 sm:py-12"
         >
           <h2
-            className="mb-4 text-2xl font-extrabold text-[var(--dc-primary-dark)] sm:text-3xl md:text-4xl"
+            className="mb-4 text-2xl font-extrabold text-[var(--dc-text-primary)] sm:text-3xl md:text-4xl"
             style={{ fontFamily: "var(--dc-font-display)" }}
           >
             {block.titleAr}
@@ -32,13 +33,13 @@ export function IntroArticleSection({ block }: { block: IntroArticleBlock }) {
             {block.paragraphsAr.map((p, i) => (
               <motion.p
                 key={i}
-                initial={{ opacity: 0, y: reduce ? 0 : 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: reduce ? 0 : 16 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{
-                  delay: reduce ? 0 : 0.06 + i * 0.05,
+                  delay: reduce ? 0 : 0.08 + i * 0.06,
                   duration: dcMotion.base,
-                  ease: dcMotion.easeOut,
+                  ease: dcMotion.easeSpring,
                 }}
               >
                 {p}
