@@ -6,7 +6,7 @@ const here = dirname(fileURLToPath(import.meta.url));
 
 /** جذر المشروع من `apps/api/src/lib` أو `apps/api/dist/lib` */
 export function defaultMediaUploadDir(): string {
-  return join(here, "..", "..", "..", "data", "uploads");
+  return join(here, "..", "..", "..", "..", "data", "uploads");
 }
 
 export function resolveMediaUploadDir(override?: string | undefined): string {
