@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { homePageJsonSchema } from "./home-schema.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -14,5 +15,5 @@ function resolveHomeJsonPath(): string {
 export function loadHomePageJson(): unknown {
   const path = resolveHomeJsonPath();
   const raw = readFileSync(path, "utf-8");
-  return JSON.parse(raw) as unknown;
+  return homePageJsonSchema.parse(JSON.parse(raw) as unknown);
 }
