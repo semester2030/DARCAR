@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { DarCarLogo } from "@/components/brand/dar-car-logo";
 import type { HeroBlock } from "@/lib/home-content";
+import { safePublicHref } from "@/lib/home-content";
 import { siteConfig } from "@/lib/site-config";
 import { dcMotion } from "@/theme";
 
@@ -131,7 +132,7 @@ export function HeroSection({ block }: { block: HeroBlock }) {
                 className="mb-0 flex flex-col items-stretch justify-center gap-2.5 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start"
               >
                 <motion.a
-                  href={block.primaryCta.href}
+                  href={safePublicHref(block.primaryCta.href)}
                   whileHover={reduce ? undefined : { scale: 1.02, y: -1 }}
                   whileTap={reduce ? undefined : { scale: 0.98 }}
                   className="group/cta relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full bg-gradient-to-l from-[var(--dc-primary-dark)] via-[var(--dc-primary)] to-[var(--dc-primary-bright)] px-7 py-2.5 text-sm font-bold text-white shadow-[var(--dc-shadow-md)] ring-1 ring-white/20 sm:min-h-12 sm:px-8"
@@ -147,7 +148,7 @@ export function HeroSection({ block }: { block: HeroBlock }) {
                   />
                 </motion.a>
                 <motion.a
-                  href={block.secondaryCta.href}
+                  href={safePublicHref(block.secondaryCta.href)}
                   whileHover={reduce ? undefined : { scale: 1.02, y: -1 }}
                   whileTap={reduce ? undefined : { scale: 0.98 }}
                   className="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-[var(--dc-primary)]/35 bg-white/90 px-7 py-2.5 text-sm font-bold text-[var(--dc-primary-dark)] shadow-sm backdrop-blur-sm transition-[border-color,background-color,box-shadow] duration-[var(--dc-duration-base)] hover:border-[var(--dc-primary)] hover:bg-sky-50/80 hover:shadow-md sm:min-h-12 sm:px-8"

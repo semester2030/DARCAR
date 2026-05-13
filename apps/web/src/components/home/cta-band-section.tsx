@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import type { CtaBandBlock } from "@/lib/home-content";
+import { safePublicHref } from "@/lib/home-content";
 import { dcMotion } from "@/theme";
 
 export function CtaBandSection({ block }: { block: CtaBandBlock }) {
@@ -33,7 +34,7 @@ export function CtaBandSection({ block }: { block: CtaBandBlock }) {
               {block.bodyAr}
             </p>
             <motion.a
-              href={block.href}
+              href={safePublicHref(block.href)}
               whileHover={reduce ? undefined : { scale: 1.04, y: -3 }}
               whileTap={reduce ? undefined : { scale: 0.98 }}
               className="inline-flex min-h-12 items-center justify-center rounded-full bg-gradient-to-l from-[var(--dc-primary-dark)] via-[var(--dc-primary)] to-[var(--dc-primary-bright)] px-10 py-3 text-sm font-extrabold text-white shadow-lg ring-1 ring-sky-200/40"

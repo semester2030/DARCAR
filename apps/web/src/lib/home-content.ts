@@ -110,14 +110,139 @@ export type HomePageDocument = {
   blocks: HomeBlock[];
 };
 
+const iconKeys = new Set<IconKey>(["map", "media", "shield", "spark"]);
+const accents = new Set<FeatureItem["accent"]>(["primary", "violet", "emerald", "gold"]);
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function isOptionalString(value: unknown): value is string | undefined {
+  return value === undefined || typeof value === "string";
+}
+
+export function isSafePublicHref(value: unknown): value is string {
+  if (typeof value !== "string") return false;
+  const href = value.trim();
+  if (!href) return false;
+  if (href.startsWith("#")) return true;
+  if (href.startsWith("/") && !href.startsWith("//")) return true;
+
+  try {
+    const url = new URL(href);
+    return url.protocol === "http:" || url.protocol === "https:" || url.protocol === "mailto:" || url.protocol === "tel:";
+  } catch {
+    return false;
+  }
+}
+
+export function safePublicHref(href: string): string {
+  const trimmed = href.trim();
+  return isSafePublicHref(trimmed) ? trimmed : "#";
+}
+
+function isCta(value: unknown): value is { labelAr: string; href: string } {
+  return isRecord(value) && typeof value.labelAr === "string" && isSafePublicHref(value.href);
+}
+
+function isFeatureItem(value: unknown): value is FeatureItem {
+  return (
+    isRecord(value) &&
+    typeof value.id === "string" &&
+    iconKeys.has(value.iconKey as IconKey) &&
+    typeof value.titleAr === "string" &&
+    typeof value.bodyAr === "string" &&
+    accents.has(value.accent as FeatureItem["accent"])
+  );
+}
+
+function isFeatureSpotlightItem(value: unknown): value is FeatureSpotlightItem {
+  return (
+    isRecord(value) &&
+    typeof value.id === "string" &&
+    iconKeys.has(value.iconKey as IconKey) &&
+    typeof value.titleAr === "string" &&
+    accents.has(value.accent as FeatureSpotlightItem["accent"]) &&
+    typeof value.whatItIsAr === "string" &&
+    typeof value.roleAr === "string" &&
+    isOptionalString(value.imageUrl) &&
+    isOptionalString(value.videoUrl) &&
+    isOptionalString(value.imageAltAr)
+  );
+}
+
+function isHomeBlock(value: unknown): value is HomeBlock {
+  if (!isRecord(value) || typeof value.id !== "string") return false;
+
+  switch (value.type) {
+    case "hero":
+      return (
+        typeof value.eyebrowAr === "string" &&
+        typeof value.headlineAr === "string" &&
+        typeof value.subheadlineAr === "string" &&
+        isCta(value.primaryCta) &&
+        isCta(value.secondaryCta) &&
+        isStringArray(value.badgesAr)
+      );
+    case "intro_article":
+      return (
+        typeof value.titleAr === "string" &&
+        isOptionalString(value.leadAr) &&
+        isStringArray(value.paragraphsAr)
+      );
+    case "feature_grid":
+      return (
+        typeof value.sectionTitleAr === "string" &&
+        typeof value.sectionSubtitleAr === "string" &&
+        Array.isArray(value.items) &&
+        value.items.every(isFeatureItem)
+      );
+    case "feature_spotlight":
+      return (
+        typeof value.sectionTitleAr === "string" &&
+        typeof value.sectionSubtitleAr === "string" &&
+        Array.isArray(value.items) &&
+        value.items.every(isFeatureSpotlightItem)
+      );
+    case "stats":
+      return (
+        Array.isArray(value.items) &&
+        value.items.every(
+          (item) =>
+            isRecord(item) &&
+            typeof item.value === "string" &&
+            typeof item.suffixAr === "string" &&
+            typeof item.labelAr === "string",
+        )
+      );
+    case "tech_showcase":
+      return typeof value.titleAr === "string" && typeof value.subtitleAr === "string" && isStringArray(value.tagsAr);
+    case "cta_band":
+      return (
+        typeof value.titleAr === "string" &&
+        typeof value.bodyAr === "string" &&
+        typeof value.buttonAr === "string" &&
+        isSafePublicHref(value.href)
+      );
+    default:
+      return false;
+  }
+}
+
 export function isHomePageDocument(x: unknown): x is HomePageDocument {
-  if (!x || typeof x !== "object") return false;
-  const o = x as Record<string, unknown>;
+  if (!isRecord(x)) return false;
+  const o = x;
   const v = o.version;
   return (
     (v === 1 || v === 2) &&
     Array.isArray(o.blocks) &&
-    o.meta !== null &&
-    typeof o.meta === "object"
+    o.blocks.every(isHomeBlock) &&
+    isRecord(o.meta) &&
+    typeof o.meta.titleAr === "string" &&
+    typeof o.meta.descriptionAr === "string"
   );
 }
