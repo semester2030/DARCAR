@@ -110,14 +110,126 @@ export type HomePageDocument = {
   blocks: HomeBlock[];
 };
 
-export function isHomePageDocument(x: unknown): x is HomePageDocument {
-  if (!x || typeof x !== "object") return false;
-  const o = x as Record<string, unknown>;
-  const v = o.version;
+function isRecord(x: unknown): x is Record<string, unknown> {
+  return Boolean(x && typeof x === "object");
+}
+
+function isStringArray(x: unknown): x is string[] {
+  return Array.isArray(x) && x.every((item) => typeof item === "string");
+}
+
+function isOptionalString(x: unknown): x is string | undefined {
+  return x === undefined || typeof x === "string";
+}
+
+function isIconKey(x: unknown): x is IconKey {
+  return x === "map" || x === "media" || x === "shield" || x === "spark";
+}
+
+function isAccent(x: unknown): x is FeatureItem["accent"] {
+  return x === "primary" || x === "violet" || x === "emerald" || x === "gold";
+}
+
+function isCta(x: unknown): x is HeroBlock["primaryCta"] {
+  return isRecord(x) && typeof x.labelAr === "string" && typeof x.href === "string";
+}
+
+function isFeatureItem(x: unknown): x is FeatureItem {
   return (
-    (v === 1 || v === 2) &&
-    Array.isArray(o.blocks) &&
-    o.meta !== null &&
-    typeof o.meta === "object"
+    isRecord(x) &&
+    typeof x.id === "string" &&
+    isIconKey(x.iconKey) &&
+    typeof x.titleAr === "string" &&
+    typeof x.bodyAr === "string" &&
+    isAccent(x.accent)
+  );
+}
+
+function isFeatureSpotlightItem(x: unknown): x is FeatureSpotlightItem {
+  return (
+    isRecord(x) &&
+    typeof x.id === "string" &&
+    isIconKey(x.iconKey) &&
+    typeof x.titleAr === "string" &&
+    isAccent(x.accent) &&
+    typeof x.whatItIsAr === "string" &&
+    typeof x.roleAr === "string" &&
+    isOptionalString(x.imageUrl) &&
+    isOptionalString(x.videoUrl) &&
+    isOptionalString(x.imageAltAr)
+  );
+}
+
+function isStatItem(x: unknown): x is StatItem {
+  return (
+    isRecord(x) &&
+    typeof x.value === "string" &&
+    typeof x.suffixAr === "string" &&
+    typeof x.labelAr === "string"
+  );
+}
+
+function isHomeBlock(x: unknown): x is HomeBlock {
+  if (!isRecord(x) || typeof x.id !== "string") return false;
+
+  switch (x.type) {
+    case "hero":
+      return (
+        typeof x.eyebrowAr === "string" &&
+        typeof x.headlineAr === "string" &&
+        typeof x.subheadlineAr === "string" &&
+        isCta(x.primaryCta) &&
+        isCta(x.secondaryCta) &&
+        isStringArray(x.badgesAr)
+      );
+    case "intro_article":
+      return (
+        typeof x.titleAr === "string" &&
+        isOptionalString(x.leadAr) &&
+        isStringArray(x.paragraphsAr)
+      );
+    case "feature_grid":
+      return (
+        typeof x.sectionTitleAr === "string" &&
+        typeof x.sectionSubtitleAr === "string" &&
+        Array.isArray(x.items) &&
+        x.items.every(isFeatureItem)
+      );
+    case "feature_spotlight":
+      return (
+        typeof x.sectionTitleAr === "string" &&
+        typeof x.sectionSubtitleAr === "string" &&
+        Array.isArray(x.items) &&
+        x.items.every(isFeatureSpotlightItem)
+      );
+    case "stats":
+      return Array.isArray(x.items) && x.items.every(isStatItem);
+    case "tech_showcase":
+      return typeof x.titleAr === "string" && typeof x.subtitleAr === "string" && isStringArray(x.tagsAr);
+    case "cta_band":
+      return (
+        typeof x.titleAr === "string" &&
+        typeof x.bodyAr === "string" &&
+        typeof x.buttonAr === "string" &&
+        typeof x.href === "string"
+      );
+    default:
+      return false;
+  }
+}
+
+export function isHomePageDocument(x: unknown): x is HomePageDocument {
+  if (!isRecord(x)) return false;
+  const v = x.version;
+  return (
+    typeof v === "number" &&
+    Number.isInteger(v) &&
+    v > 0 &&
+    Array.isArray(x.blocks) &&
+    x.blocks.every(isHomeBlock) &&
+    isRecord(x.meta) &&
+    typeof x.meta.titleAr === "string" &&
+    x.meta.titleAr.length > 0 &&
+    typeof x.meta.descriptionAr === "string"
   );
 }
