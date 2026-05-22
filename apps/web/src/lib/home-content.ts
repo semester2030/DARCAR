@@ -110,14 +110,112 @@ export type HomePageDocument = {
   blocks: HomeBlock[];
 };
 
+const iconKeys = new Set<IconKey>(["map", "media", "shield", "spark"]);
+const accents = new Set<FeatureItem["accent"]>(["primary", "violet", "emerald", "gold"]);
+
+function isRecord(x: unknown): x is Record<string, unknown> {
+  return x !== null && typeof x === "object";
+}
+
+function hasString(o: Record<string, unknown>, key: string): boolean {
+  return typeof o[key] === "string";
+}
+
+function optionalString(o: Record<string, unknown>, key: string): boolean {
+  return o[key] === undefined || typeof o[key] === "string";
+}
+
+function isStringArray(x: unknown): x is string[] {
+  return Array.isArray(x) && x.every((item) => typeof item === "string");
+}
+
+function isCta(x: unknown): x is HeroBlock["primaryCta"] {
+  return isRecord(x) && hasString(x, "labelAr") && hasString(x, "href");
+}
+
+function isFeatureItem(x: unknown): x is FeatureItem {
+  return (
+    isRecord(x) &&
+    hasString(x, "id") &&
+    iconKeys.has(x.iconKey as IconKey) &&
+    hasString(x, "titleAr") &&
+    hasString(x, "bodyAr") &&
+    accents.has(x.accent as FeatureItem["accent"])
+  );
+}
+
+function isFeatureSpotlightItem(x: unknown): x is FeatureSpotlightItem {
+  return (
+    isRecord(x) &&
+    hasString(x, "id") &&
+    iconKeys.has(x.iconKey as IconKey) &&
+    hasString(x, "titleAr") &&
+    accents.has(x.accent as FeatureItem["accent"]) &&
+    hasString(x, "whatItIsAr") &&
+    hasString(x, "roleAr") &&
+    optionalString(x, "imageUrl") &&
+    optionalString(x, "videoUrl") &&
+    optionalString(x, "imageAltAr")
+  );
+}
+
+function isStatItem(x: unknown): x is StatItem {
+  return isRecord(x) && hasString(x, "value") && hasString(x, "suffixAr") && hasString(x, "labelAr");
+}
+
+function isHomeBlock(x: unknown): x is HomeBlock {
+  if (!isRecord(x) || !hasString(x, "id")) return false;
+  switch (x.type) {
+    case "hero":
+      return (
+        hasString(x, "eyebrowAr") &&
+        hasString(x, "headlineAr") &&
+        hasString(x, "subheadlineAr") &&
+        isCta(x.primaryCta) &&
+        isCta(x.secondaryCta) &&
+        isStringArray(x.badgesAr)
+      );
+    case "intro_article":
+      return (
+        hasString(x, "titleAr") &&
+        optionalString(x, "leadAr") &&
+        isStringArray(x.paragraphsAr)
+      );
+    case "feature_grid":
+      return (
+        hasString(x, "sectionTitleAr") &&
+        hasString(x, "sectionSubtitleAr") &&
+        Array.isArray(x.items) &&
+        x.items.every(isFeatureItem)
+      );
+    case "feature_spotlight":
+      return (
+        hasString(x, "sectionTitleAr") &&
+        hasString(x, "sectionSubtitleAr") &&
+        Array.isArray(x.items) &&
+        x.items.every(isFeatureSpotlightItem)
+      );
+    case "stats":
+      return Array.isArray(x.items) && x.items.every(isStatItem);
+    case "tech_showcase":
+      return hasString(x, "titleAr") && hasString(x, "subtitleAr") && isStringArray(x.tagsAr);
+    case "cta_band":
+      return hasString(x, "titleAr") && hasString(x, "bodyAr") && hasString(x, "buttonAr") && hasString(x, "href");
+    default:
+      return false;
+  }
+}
+
 export function isHomePageDocument(x: unknown): x is HomePageDocument {
-  if (!x || typeof x !== "object") return false;
-  const o = x as Record<string, unknown>;
+  if (!isRecord(x)) return false;
+  const o = x;
   const v = o.version;
   return (
     (v === 1 || v === 2) &&
     Array.isArray(o.blocks) &&
-    o.meta !== null &&
-    typeof o.meta === "object"
+    o.blocks.every(isHomeBlock) &&
+    isRecord(o.meta) &&
+    hasString(o.meta, "titleAr") &&
+    hasString(o.meta, "descriptionAr")
   );
 }
