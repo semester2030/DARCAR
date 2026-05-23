@@ -129,15 +129,21 @@ export function AdminHomeEditor() {
       setRaw(JSON.stringify(doc, null, 2));
     }
     if (next === "visual" && raw.trim()) {
+      setMessage(null);
       try {
         const p = JSON.parse(raw) as unknown;
         if (isHomePageDocument(p)) {
           setDoc(structuredClone(p));
+        } else {
+          setError("JSON لا يطابق نموذج الصفحة الرئيسية — أصلح البنية قبل فتح المحرّر البصري.");
+          return;
         }
       } catch {
-        /* keep previous doc */
+        setError("JSON غير صالح — أصلح الصياغة قبل فتح المحرّر البصري.");
+        return;
       }
     }
+    setError(null);
     setTab(next);
   }
 

@@ -110,14 +110,125 @@ export type HomePageDocument = {
   blocks: HomeBlock[];
 };
 
-export function isHomePageDocument(x: unknown): x is HomePageDocument {
-  if (!x || typeof x !== "object") return false;
-  const o = x as Record<string, unknown>;
-  const v = o.version;
+const iconKeys = new Set<IconKey>(["map", "media", "shield", "spark"]);
+const accents = new Set<FeatureItem["accent"]>(["primary", "violet", "emerald", "gold"]);
+
+function isRecord(x: unknown): x is Record<string, unknown> {
+  return x !== null && typeof x === "object" && !Array.isArray(x);
+}
+
+function isStringArray(x: unknown): x is string[] {
+  return Array.isArray(x) && x.every((item) => typeof item === "string");
+}
+
+function isOptionalString(x: unknown): x is string | undefined {
+  return x === undefined || typeof x === "string";
+}
+
+function hasBaseBlockFields(x: Record<string, unknown>): x is Record<string, unknown> & { id: string } {
+  return typeof x.id === "string" && x.id.length > 0;
+}
+
+function isCta(x: unknown): x is { labelAr: string; href: string } {
+  return isRecord(x) && typeof x.labelAr === "string" && typeof x.href === "string";
+}
+
+function isFeatureItem(x: unknown): x is FeatureItem {
   return (
-    (v === 1 || v === 2) &&
-    Array.isArray(o.blocks) &&
-    o.meta !== null &&
-    typeof o.meta === "object"
+    isRecord(x) &&
+    typeof x.id === "string" &&
+    x.id.length > 0 &&
+    iconKeys.has(x.iconKey as IconKey) &&
+    typeof x.titleAr === "string" &&
+    typeof x.bodyAr === "string" &&
+    accents.has(x.accent as FeatureItem["accent"])
+  );
+}
+
+function isFeatureSpotlightItem(x: unknown): x is FeatureSpotlightItem {
+  return (
+    isRecord(x) &&
+    typeof x.id === "string" &&
+    x.id.length > 0 &&
+    iconKeys.has(x.iconKey as IconKey) &&
+    typeof x.titleAr === "string" &&
+    accents.has(x.accent as FeatureSpotlightItem["accent"]) &&
+    typeof x.whatItIsAr === "string" &&
+    typeof x.roleAr === "string" &&
+    isOptionalString(x.imageUrl) &&
+    isOptionalString(x.videoUrl) &&
+    isOptionalString(x.imageAltAr)
+  );
+}
+
+function isStatItem(x: unknown): x is StatItem {
+  return (
+    isRecord(x) &&
+    typeof x.value === "string" &&
+    typeof x.suffixAr === "string" &&
+    typeof x.labelAr === "string"
+  );
+}
+
+function isHomeBlock(x: unknown): x is HomeBlock {
+  if (!isRecord(x) || !hasBaseBlockFields(x) || typeof x.type !== "string") return false;
+
+  switch (x.type) {
+    case "hero":
+      return (
+        typeof x.eyebrowAr === "string" &&
+        typeof x.headlineAr === "string" &&
+        typeof x.subheadlineAr === "string" &&
+        isCta(x.primaryCta) &&
+        isCta(x.secondaryCta) &&
+        isStringArray(x.badgesAr)
+      );
+    case "intro_article":
+      return (
+        typeof x.titleAr === "string" &&
+        isOptionalString(x.leadAr) &&
+        isStringArray(x.paragraphsAr)
+      );
+    case "feature_grid":
+      return (
+        typeof x.sectionTitleAr === "string" &&
+        typeof x.sectionSubtitleAr === "string" &&
+        Array.isArray(x.items) &&
+        x.items.every(isFeatureItem)
+      );
+    case "feature_spotlight":
+      return (
+        typeof x.sectionTitleAr === "string" &&
+        typeof x.sectionSubtitleAr === "string" &&
+        Array.isArray(x.items) &&
+        x.items.every(isFeatureSpotlightItem)
+      );
+    case "stats":
+      return Array.isArray(x.items) && x.items.every(isStatItem);
+    case "tech_showcase":
+      return typeof x.titleAr === "string" && typeof x.subtitleAr === "string" && isStringArray(x.tagsAr);
+    case "cta_band":
+      return (
+        typeof x.titleAr === "string" &&
+        typeof x.bodyAr === "string" &&
+        typeof x.buttonAr === "string" &&
+        typeof x.href === "string"
+      );
+    default:
+      return false;
+  }
+}
+
+export function isHomePageDocument(x: unknown): x is HomePageDocument {
+  if (!isRecord(x)) return false;
+  return (
+    Number.isInteger(x.version) &&
+    typeof x.version === "number" &&
+    x.version > 0 &&
+    isRecord(x.meta) &&
+    typeof x.meta.titleAr === "string" &&
+    typeof x.meta.descriptionAr === "string" &&
+    Array.isArray(x.blocks) &&
+    x.blocks.every(isHomeBlock)
   );
 }
