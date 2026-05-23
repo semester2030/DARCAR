@@ -18,7 +18,9 @@ function homeJsonPath(): string {
 export function saveHomePageJson(data: unknown): HomePageJsonValidated {
   const parsed = homePageJsonSchema.safeParse(data);
   if (!parsed.success) {
-    const msg = parsed.error.flatten().formErrors.join("; ") || "INVALID_HOME_PAYLOAD";
+    const msg =
+      parsed.error.issues.map((issue) => `${issue.path.join(".") || "payload"}: ${issue.message}`).join("; ") ||
+      "INVALID_HOME_PAYLOAD";
     throw new Error(msg);
   }
   const path = homeJsonPath();
