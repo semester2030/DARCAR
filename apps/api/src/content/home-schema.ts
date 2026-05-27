@@ -6,7 +6,11 @@ const iconKey = z.enum(["map", "media", "shield", "spark"]);
 const accent = z.enum(["primary", "violet", "emerald", "gold"]);
 
 function hasControlChars(value: string): boolean {
-  return /[\u0000-\u001f\u007f]/.test(value);
+  for (const char of value) {
+    const code = char.charCodeAt(0);
+    if (code <= 0x1f || code === 0x7f) return true;
+  }
+  return false;
 }
 
 function isSafeHref(value: string): boolean {
